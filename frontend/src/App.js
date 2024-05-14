@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ROUTES } from "./utils/routes.js";
 import Header from "./components/Header";
 import Home from "./pages/Home.jsx";
@@ -9,16 +9,14 @@ import NotFound from "./pages/NotFound.jsx";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div className="d-flex flex-column vh-100 bg-light">
-        <Header />
-        <Routes>
-          <Route path={ROUTES.home} element={<Home />} />
-          <Route path={ROUTES.login} element={<Login />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div className="d-flex flex-column vh-100 bg-light">
+      <Header />
+      <Routes>
+        <Route path={ROUTES.home} element={<Home />} />
+        <Route path={ROUTES.login} element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 };
 

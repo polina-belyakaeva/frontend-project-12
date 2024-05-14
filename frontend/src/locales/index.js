@@ -1,3 +1,9 @@
 import ru from "./ru.js";
 
-export default { ru };
+const resources = {
+  ru: {
+    translation: ru,
+  },
+};
+
+export default resources;
