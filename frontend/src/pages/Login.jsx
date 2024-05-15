@@ -16,22 +16,30 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
+    const [isInvalid, setIsInvalid] = useState(false);
 
     const addToken = (token) => dispatch(setToken(token));
     const addUsername = (username) => dispatch(setUsername(username));
 
     const { t } = useTranslation();
+
+    const handleInputChange = (e) => {
+        setErrorMessage('');
+        setIsInvalid(false);
+        
+        formik.handleChange(e);
+    };
     
     const formik = useFormik({
         initialValues: {
-            nickname: '',
+            username: '',
             password: '',
         },
         onSubmit: async (values) => {
             try {
-                const { nickname, password } = values;
+                const { username, password } = values;
                 console.log(values);
-                const response = await axios.post('/api/v1/login', { nickname, password });
+                const response = await axios.post('/api/v1/login', { username, password });
                 if (response.data.token) {
                     const token = response.data.token;
                     const username = response.data.nickname;
@@ -41,14 +49,17 @@ const Login = () => {
                     addToken(token);
                     addUsername(username);
                     login();
+                    setErrorMessage('');
                 
                     navigate(ROUTES.home);
                 } else {
                     setErrorMessage(t('form.errors.nickname'));
+                    setIsInvalid(true);
                 }
                 
             } catch (error) {
                 setErrorMessage(error.response?.data?.message || t('loginPage.error.serverError'));
+                setIsInvalid(true);
             }
         }
     });
@@ -66,46 +77,36 @@ const Login = () => {
                                 className="col-12 col-md-6 mt-3 mt-md-0" 
                                 onSubmit={formik.handleSubmit}
                             >
-                                <h1 className="text-center mb-4">{t('loginPage.title')}</h1>
-                                {errorMessage && (
-                                    <div className="alert alert-danger" role="alert">
-                                        {errorMessage}
-                                    </div>
-                                )}
+                                <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
                                 <Form.Group className="mb-3" controlId="nickname">
-                                    <FloatingLabel label={t('loginPage.labels.nickname')}>
+                                    <FloatingLabel label={t('loginPage.nickname')}>
                                         <Form.Control
                                             type="text"
-                                            name="nickname"
-                                            value={formik.values.nickname}
-                                            onChange={formik.handleChange}
-                                            placeholder={t('loginPage.placeholders.nickname')}
+                                            name="username"
+                                            value={formik.values.username}
+                                            onChange={handleInputChange}
+                                            placeholder={t('loginPage.nickname')}
                                             required
-                                            isInvalid={formik.errors.nickname && formik.touched.nickname}
+                                            isInvalid={formik.touched.username && isInvalid && errorMessage}
                                         />
                                     </FloatingLabel>
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.nickname}
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <FloatingLabel label={t('loginPage.labels.password')}>
+                                    <FloatingLabel label={t('loginPage.password')}>
                                         <Form.Control
                                             type="password"
                                             name="password"
-                                            onChange={formik.handleChange}
+                                            onChange={handleInputChange}
                                             value={formik.values.password}
-                                            placeholder={t('loginPage.placeholders.password')}
+                                            placeholder={t('loginPage.password')}
                                             required
-                                            isInvalid={formik.errors.password && formik.touched.password}
+                                            isInvalid={formik.touched.password && isInvalid && errorMessage}
                                         />
+                                        <Form.Control.Feedback type="invalid" tooltip>{ t('form.errors.wrongNicknameorPassword') }</Form.Control.Feedback>
                                     </FloatingLabel>
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.password}
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">
-                                    {t('loginPage.buttons.login')}
+                                    {t('loginPage.login')}
                                 </Button>
                             </Form>
                         </Card.Body>

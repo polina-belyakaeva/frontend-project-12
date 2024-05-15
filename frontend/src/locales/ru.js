@@ -1,4 +1,4 @@
-const ru = {
+export default {
   translation: {
     loginPage: {
       login: "Войти",
@@ -10,14 +10,14 @@ const ru = {
         signup: "Регистрация",
       },
     },
+    header: {
+      logout: "Выйти",
+    },
     form: {
       errors: {
         required: "Обязательное поле",
-        nickname: "Неверные имя пользователя или пароль",
-        password: "Неверные имя пользователя или пароль",
+        wrongNicknameorPassword: "Неверные имя пользователя или пароль",
       },
     },
   },
 };
-
-export default ru;
