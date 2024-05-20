@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../utils/routes.js';
+import { Container, Row } from 'react-bootstrap';
+import Channels from '../components/channels/Channels.jsx';
+import Chat from '../components/chat/Chat.jsx';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -7,14 +11,17 @@ const Home = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      navigate(ROUTES.login);
     }
   }, [navigate]);
 
   return (
-    <div>
-      <h1>Главная страница</h1>
-    </div>
+      <Container className='h-100 my-4 overflow-hidden rounded shadow'>
+        <Row className='h-100 bg-white flex-md-row'>
+        <Channels />
+        <Chat />
+        </Row>
+      </Container>
   );
 };
 

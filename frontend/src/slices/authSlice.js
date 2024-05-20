@@ -17,7 +17,7 @@ const authSlice = createSlice({
       state.username = action.payload;
       localStorage.setItem("username", action.payload);
     },
-    logout: (state) => {
+    fullLogout: (state) => {
       state.token = null;
       state.username = null;
       localStorage.removeItem("token");
@@ -26,5 +26,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, setUsername, logout } = authSlice.actions;
+export const { setToken, setUsername, fullLogout } = authSlice.actions;
 export default authSlice.reducer;

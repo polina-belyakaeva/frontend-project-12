@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = () => {
     setIsAuthenticated(true);
+    navigate(ROUTES.home);
   };
   const logout = () => {
     setIsAuthenticated(false);

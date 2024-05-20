@@ -39,10 +39,11 @@ const Login = () => {
             try {
                 const { username, password } = values;
                 console.log(values);
+                console.log(username, 'username1');
                 const response = await axios.post('/api/v1/login', { username, password });
                 if (response.data.token) {
                     const token = response.data.token;
-                    const username = response.data.nickname;
+                    const username = response.data.username;
                 
                     localStorage.setItem('username', username);
                     localStorage.setItem('token', token);

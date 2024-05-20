@@ -8,8 +8,8 @@ export const ROUTES = {
 };
 
 export const API_ROUTES = {
-  signup: () => [apiPath, "signup"].join("/"),
-  login: () => [apiPath, "login"].join("/"),
-  messages: () => [apiPath, "messages"].join("/"),
-  channels: () => [apiPath, "channels"].join("/"),
+  signup: () => `${apiPath}/signup`,
+  login: () => `${apiPath}/login`,
+  messages: () => `${apiPath}/messages`,
+  channels: () => `${apiPath}/channels`,
 };
