@@ -8,7 +8,7 @@ export default configureStore({
   reducer: {
     auth: authReducer,
     channels: channelsReducer,
-    [channelsApi.reducerPath]: channelsApi.reducer,
+    // [channelsApi.reducerPath]: channelsApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(channelsApi.middleware, messagesApi.middleware),

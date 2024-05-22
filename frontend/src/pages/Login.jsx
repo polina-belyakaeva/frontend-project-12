@@ -40,7 +40,7 @@ const Login = () => {
                 const { username, password } = values;
                 console.log(values);
                 console.log(username, 'username1');
-                const response = await axios.post('/api/v1/login', { username, password });
+                const response = await axios.post(ROUTES.login(), { username, password });
                 if (response.data.token) {
                     const token = response.data.token;
                     const username = response.data.username;
