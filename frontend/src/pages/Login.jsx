@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { AuthContext } from '../context/authContext.js';
 import axios from 'axios';
-import { API_ROUTES } from '../utils/routes';
+import { API_ROUTES, ROUTES } from '../utils/routes';
 import { useNavigate, Link } from 'react-router-dom';
 import { setToken, setUsername } from '../slices/authSlice.js';
 import loginAvatar from '../assets/loginAvatar.jpeg';
