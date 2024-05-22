@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { AuthContext } from '../context/authContext.js';
 import axios from 'axios';
-import { ROUTES } from '../utils/routes';
+import { API_ROUTES } from '../utils/routes';
 import { useNavigate, Link } from 'react-router-dom';
 import { setToken, setUsername } from '../slices/authSlice.js';
 import loginAvatar from '../assets/loginAvatar.jpeg';
@@ -40,7 +40,7 @@ const Login = () => {
                 const { username, password } = values;
                 console.log(values);
                 console.log(username, 'username1');
-                const response = await axios.post(ROUTES.login(), { username, password });
+                const response = await axios.post(API_ROUTES.login(), { username, password });
                 if (response.data.token) {
                     const token = response.data.token;
                     const username = response.data.username;
