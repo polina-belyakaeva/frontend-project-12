@@ -10,27 +10,28 @@ import axios from 'axios';
 const Channels = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const addChannels = (channels) => dispatch(setChannels(channels));
     const addCurrentChat = (channel) => dispatch(setCurrentChannel(channel));
     const { token } = useSelector((state) => state.auth);
 
+    const getChannels = async () => {
+        await axios.get(API_ROUTES.channels(), {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data, 'response channels');
+            addChannels(response.data);
+          })
+          .catch((e) => {
+            console.log('Get channels Error: ', e);
+          });
+    };
+
     useEffect(() => {
-        const addChannels = (channels) => dispatch(setChannels(channels));
-        const getChannels = async () => {
-            await axios.get(API_ROUTES.channels(), {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              })
-              .then((response) => {
-                console.log(response.data, 'response channels');
-                addChannels(response.data);
-              })
-              .catch((e) => {
-                console.log('Get channels Error: ', e);
-              });
-        };
         getChannels();
-    }, [token, dispatch]);
+    }, [token]);
 
     const { channelsList, currentChannel } = useSelector((state) => state.channels);
     console.log(channelsList, 'channels state');

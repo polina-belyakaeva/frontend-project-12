@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useGetMessagesQuery } from '../../api/messagesApi';
 import { useTranslation } from 'react-i18next';
 
 const ChatHeader = () => {
     const { t } = useTranslation();
     const { currentChannel } = useSelector((state) => state.channels);
-    const { messages } = useSelector((state) => state.messages);
-    const channelsMessages = messages.filter((message) => message.channelId === currentChannel.id);
-    console.log(channelsMessages, 'channelsMessages in header');
-    console.log(channelsMessages.length, 'channelsMessages in header length');
+    const { data = [] } = useGetMessagesQuery();
 
+    const channelsMessages = data.filter((message) => message.channelId === currentChannel.id);
+    console.log(channelsMessages, 'channelsMessages in header');
 
     return (
         <div className='bg-light mb-4 p-3 shadow-sm small'>
