@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import store from "./slices/index.js";
+import store from "./slices/store/index.js";
 import "./init18n.jsx";
 import { I18nextProvider } from "react-i18next";
 import { AuthProvider } from "./context/authContext.js";

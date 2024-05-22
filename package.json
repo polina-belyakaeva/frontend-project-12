@@ -1,13 +1,13 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/polina-belyakaeva/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/polina-belyakaeva/frontend-project-12/actions)",
-  "main": "./frontend/src/index.js",
+  "description": "Chat",
+  "main": "index.js",
   "scripts": {
-      "build": "npm run build --prefix frontend",
-      "start": "start-server -s ./frontend/build",
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "postinstall": "cd frontend && npm ci"
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm ci"
   },
   "author": "Polina Belyakaeva",
   "license": "ISC",

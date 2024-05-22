@@ -1,42 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { API_ROUTES } from '../../utils/routes.js';
-import { setMessages } from '../../slices/messagesSlice.js';
-import axios from 'axios';
+import { useGetMessagesQuery, messagesApi } from '../../api/messagesApi';
+import { socket } from '../../socket';
 
 const Messages = () => {
-const { t } = useTranslation();
-const dispatch = useDispatch();
-const addMessages = (messages) => dispatch(setMessages(messages));
-const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { data = [], refetch } = useGetMessagesQuery();
 
-const getMessages = async () => {
-    const url = API_ROUTES.channels();
-    console.log(url, 'url');
-    await axios.get(API_ROUTES.messages(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data, 'response messages');
-        addMessages(response.data);
-      })
-      .catch((e) => {
-        console.log('Get messages Error : ', e);
-      });
-    };
+  useEffect(() => {
+      const handleMessages = (newMessage) => {
+        dispatch(
+          messagesApi.util.updateQueryData('getMessages', undefined, (draftMessages) => {
+            draftMessages.push(newMessage)
+          }),
+        );
+      };    socket.connect();
+      socket.on('newMessage', handleMessages);
 
-    useEffect(() => {
-        getMessages();
-    }, [token]);
+      return () => socket.close();
+    }, [dispatch, refetch]);
 
-    const { messages } = useSelector((state) => state.messages);
     const { currentChannel } = useSelector((state) => state.channels);
-    console.log(messages, 'messages state');
     console.log(currentChannel, 'currentChannel');
-    const filteredMessages = messages.filter((message) => message.channelId === currentChannel.id);
+    const filteredMessages = data.filter((message) => message.channelId === currentChannel.id);
     console.log(filteredMessages, 'filteredMessages');
 
     return (
