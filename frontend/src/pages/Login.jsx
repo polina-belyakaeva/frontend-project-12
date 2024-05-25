@@ -54,13 +54,20 @@ const Login = () => {
                 
                     navigate(ROUTES.home);
                 } else {
-                    setErrorMessage(t('form.errors.nickname'));
-                    setIsInvalid(true);
+                    console.log('Authorization error');
                 }
-                
             } catch (error) {
-                setErrorMessage(error.response?.data?.message || t('loginPage.error.serverError'));
-                setIsInvalid(true);
+                if (!error.isAxiosError) {
+                    console.log(t('form.errors.unknown'));
+                    return;
+                  }
+                  if (error.response?.status === 401) {
+                    console.log(error.message);
+                    setErrorMessage(error.message);
+                    setIsInvalid(true);
+                  } else {
+                    console.log(t('form.errors.network'));
+                  }
             }
         }
     });

@@ -10,22 +10,27 @@ const MessageForm = () => {
     const { t } = useTranslation();
     const { token, username } = useSelector((state) => state.auth);
     const { currentChannel } = useSelector((state) => state.channels);
-    console.log(currentChannel, 'currentChannel in messageForm');
     const channelId = currentChannel.id;
 
     const handleSubmit = async (values) => {
         const newMessage = { body: values.message, channelId, username: values.username };
-        console.log(newMessage, 'newMessage');
-        console.log(values, 'values in messageForm');
-        await axios.post(API_ROUTES.messages(), newMessage, {
+        try {
+            await axios.post(API_ROUTES.messages(), newMessage, {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },
-            }).then((response) => {
-                console.log(response.data, 'response post data');
-                formik.values.message = '';
-                console.log(formik.values.message, 'formik.initialValues.message');
+            }).then(() => {
+                formik.resetForm();
             });
+        } catch (error) {
+            if (error.message === 'Network Error') {
+                console.log(error.message, 'error in message form');
+            } else {
+                console.log('Sending message error:', error.message);
+            }
+            
+        }
+        
     }
 
     const formik = useFormik({

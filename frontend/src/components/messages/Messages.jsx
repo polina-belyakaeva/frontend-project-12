@@ -17,13 +17,11 @@ const Messages = () => {
       };    socket.connect();
       socket.on('newMessage', handleMessages);
 
-      return () => socket.close();
+      return () => socket.off('newMessage');
     }, [dispatch, refetch]);
 
     const { currentChannel } = useSelector((state) => state.channels);
-    console.log(currentChannel, 'currentChannel');
     const filteredMessages = data.filter((message) => message.channelId === currentChannel.id);
-    console.log(filteredMessages, 'filteredMessages');
 
     return (
         <div id='messages-box' className="chat-messages overflow-auto px-5 ">

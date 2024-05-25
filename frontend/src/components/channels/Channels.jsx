@@ -21,7 +21,6 @@ const Channels = () => {
             },
           })
           .then((response) => {
-            console.log(response.data, 'response channels');
             addChannels(response.data);
           })
           .catch((e) => {
@@ -34,7 +33,6 @@ const Channels = () => {
     }, [token]);
 
     const { channelsList, currentChannel } = useSelector((state) => state.channels);
-    console.log(channelsList, 'channels state');
 
     const handleCurrentChat = (e) => {
         addCurrentChat(e);

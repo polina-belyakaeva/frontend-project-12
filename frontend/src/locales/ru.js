@@ -28,6 +28,8 @@ export default {
       errors: {
         required: "Обязательное поле",
         wrongNicknameorPassword: "Неверные имя пользователя или пароль",
+        unknown: "Неизвестная ошибка",
+        network: "Ошибка соединения",
       },
     },
   },

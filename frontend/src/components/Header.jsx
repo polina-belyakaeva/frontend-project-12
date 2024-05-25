@@ -10,7 +10,7 @@ import { fullLogout } from '../slices/authSlice.js';
 const Header = () => {
     const { t } = useTranslation();
     const { logout } = useContext(AuthContext);
-    const { token } = useSelector((state) => state.auth)
+    const { token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const navbarRoute = token ? ROUTES.home : ROUTES.login;
