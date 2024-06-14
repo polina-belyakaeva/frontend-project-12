@@ -38,8 +38,6 @@ const Login = () => {
         onSubmit: async (values) => {
             try {
                 const { username, password } = values;
-                console.log(values);
-                console.log(username, 'username1');
                 const response = await axios.post(API_ROUTES.login(), { username, password });
                 if (response.data.token) {
                     const token = response.data.token;
@@ -95,6 +93,7 @@ const Login = () => {
                                             onChange={handleInputChange}
                                             placeholder={t('loginPage.nickname')}
                                             required
+                                            autoFocus
                                             isInvalid={formik.touched.username && isInvalid && errorMessage}
                                         />
                                     </FloatingLabel>

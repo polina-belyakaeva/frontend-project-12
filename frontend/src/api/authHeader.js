@@ -1,9 +1,10 @@
-const authHeader = (Headers, { getState }) => {
-  const { token } = getState().auth;
+const authHeader = (headers, { getState }) => {
+  const token = getState().auth.token;
   if (token) {
-    Headers.set("Authorization", `Bearer ${token}`);
+    headers.set("Authorization", `Bearer ${token}`);
   }
-  return Headers;
+
+  return headers;
 };
 
 export default authHeader;

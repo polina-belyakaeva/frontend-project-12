@@ -14,13 +14,14 @@ const Messages = () => {
             draftMessages.push(newMessage)
           }),
         );
-      };    socket.connect();
+      };
+      socket.connect();
       socket.on('newMessage', handleMessages);
 
       return () => socket.off('newMessage');
     }, [dispatch, refetch]);
 
-    const { currentChannel } = useSelector((state) => state.channels);
+    const { currentChannel } = useSelector((state) => state.ui);
     const filteredMessages = data.filter((message) => message.channelId === currentChannel.id);
 
     return (

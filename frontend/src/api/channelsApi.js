@@ -7,30 +7,35 @@ export const channelsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_ROUTES.channels(),
     prepareHeaders: authHeader,
+    tagTypes: ["Channels, Messages"],
   }),
-  tagTypes: ["Channels"],
+
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => "",
+      providesTags: ["Channels"],
     }),
     addChannel: builder.mutation({
       query: (channel) => ({
+        url: "",
         method: "POST",
         body: channel,
       }),
     }),
     editChannel: builder.mutation({
-      query: (newChannel) => ({
+      query: (data) => ({
         method: "PATCH",
-        url: newChannel.id,
-        body: newChannel,
+        url: data.id,
+        body: data,
       }),
+      providesTags: ["Channels", "Messages"],
     }),
     removeChannel: builder.mutation({
       query: (id) => ({
-        url: id,
         method: "DELETE",
+        url: id,
       }),
+      providesTags: ["Channels", "Messages"],
     }),
   }),
 });

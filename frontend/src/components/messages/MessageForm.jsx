@@ -9,7 +9,7 @@ import axios from 'axios';
 const MessageForm = () => {
     const { t } = useTranslation();
     const { token, username } = useSelector((state) => state.auth);
-    const { currentChannel } = useSelector((state) => state.channels);
+    const { currentChannel } = useSelector((state) => state.ui);
     const channelId = currentChannel.id;
 
     const handleSubmit = async (values) => {
@@ -26,12 +26,10 @@ const MessageForm = () => {
             if (error.message === 'Network Error') {
                 console.log(error.message, 'error in message form');
             } else {
-                console.log('Sending message error:', error.message);
+                console.log('Sending message error: ', error.message);
             }
-            
         }
-        
-    }
+    };
 
     const formik = useFormik({
         initialValues: {

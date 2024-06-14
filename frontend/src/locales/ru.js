@@ -18,6 +18,16 @@ export default {
     },
     channels: {
       channels: "Каналы",
+      delete: "Удалить",
+      edit: "Переименовать",
+      modal: {
+        modalAddChannel: "Добавить канал",
+        modalCancel: "Отменить",
+        modalSend: "Отправить",
+        deleteChannel: "Удалить канал",
+        sure: "Уверены?",
+        editChannel: "Переименовать канал",
+      },
     },
     messages: {
       key_one: "{{count}} сообщение",
@@ -30,6 +40,9 @@ export default {
         wrongNicknameorPassword: "Неверные имя пользователя или пароль",
         unknown: "Неизвестная ошибка",
         network: "Ошибка соединения",
+        min: "От 3 до 20 символов",
+        max: "От 3 до 20 символов",
+        unique: "Должно быть уникальным",
       },
     },
   },
