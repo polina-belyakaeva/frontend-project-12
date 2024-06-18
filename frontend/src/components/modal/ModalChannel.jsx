@@ -188,6 +188,7 @@ export const RenameChannel = ({
     const channelNames = channels
     .filter(({ name }) => name !== modalChannelName)
     .map(({ name }) => name);
+    
     const inputRef = useRef(null);
 
     useEffect(() => {

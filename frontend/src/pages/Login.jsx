@@ -1,74 +1,60 @@
-import React, { useState, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, FloatingLabel, Row, Col, Card, Image, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import { AuthContext } from '../context/authContext.js';
-import axios from 'axios';
-import { API_ROUTES, ROUTES } from '../utils/routes';
-import { useNavigate, Link } from 'react-router-dom';
+import { useLoginUserMutation } from '../api/userApi';
+import { Link } from 'react-router-dom';
 import { setToken, setUsername } from '../slices/authSlice.js';
 import loginAvatar from '../assets/loginAvatar.jpeg';
 
 const Login = () => {
     const { login } = useContext(AuthContext);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isInvalid, setIsInvalid] = useState(false);
+    const [loginUser] = useLoginUserMutation();
+    const inputRef = useRef(null);
 
     const addToken = (token) => dispatch(setToken(token));
     const addUsername = (username) => dispatch(setUsername(username));
 
     const { t } = useTranslation();
 
-    const handleInputChange = (e) => {
-        setErrorMessage('');
-        setIsInvalid(false);
-        
-        formik.handleChange(e);
-    };
-    
-    const formik = useFormik({
-        initialValues: {
-            username: '',
-            password: '',
-        },
-        onSubmit: async (values) => {
-            try {
-                const { username, password } = values;
-                const response = await axios.post(API_ROUTES.login(), { username, password });
-                if (response.data.token) {
-                    const token = response.data.token;
-                    const username = response.data.username;
-                
-                    localStorage.setItem('username', username);
-                    localStorage.setItem('token', token);
-                    addToken(token);
-                    addUsername(username);
-                    login();
-                    setErrorMessage('');
-                
-                    navigate(ROUTES.home);
-                } else {
-                    console.log('Authorization error');
-                }
-            } catch (error) {
-                if (!error.isAxiosError) {
-                    console.log(t('form.errors.unknown'));
-                    return;
-                  }
-                  if (error.response?.status === 401) {
-                    console.log(error.message);
-                    setErrorMessage(error.message);
-                    setIsInvalid(true);
-                  } else {
-                    console.log(t('form.errors.network'));
-                  }
+    const handleSubmit = async ({ username, password }, { setSubmitting, setErrors, setFieldTouched, errors }) => {
+        try { 
+            const response = await loginUser({ username, password });
+            if (response.error?.status === 401) {
+                console.log('401');
+                setErrors({ 
+                    username: t('form.errors.wrongNicknameorPassword'),
+                    password: t('form.errors.wrongNicknameorPassword')
+                });
+                setFieldTouched('username', true, false);
+                setFieldTouched('password', true, false);
+                inputRef.current?.focus();
+                inputRef.current?.select();
+            } else if (response.data?.token) {
+                const token = response.data.token;
+                const username = response.data.username;
+            
+                localStorage.setItem('username', username);
+                localStorage.setItem('token', token);
+                addToken(token);
+                addUsername(username);
+                login();
+                setErrors('');
+            }} catch (error) {
+                console.log(error, 'error auth');
+            if (!error.isAxiosError) {
+                console.log(t('form.errors.unknown'));
+                return;
+            } else {
+                console.log(t('form.errors.network'));
             }
+            } finally {
+            setSubmitting(false);
         }
-    });
+    }
 
     return (
         <Container fluid className='h-100'>
@@ -79,43 +65,56 @@ const Login = () => {
                             <Col xs="12" md="6" className="d-flex align-items-center justify-content-center">
                                 <Image src={loginAvatar} alt={t('loginPage.imgAlt')} className="rounded-circle" />
                             </Col>
-                            <Form 
-                                className="col-12 col-md-6 mt-3 mt-md-0" 
-                                onSubmit={formik.handleSubmit}
+                            <Formik
+                            initialValues={{ username: '', password: '',}}
+                            onSubmit={handleSubmit}
                             >
-                                <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
-                                <Form.Group className="mb-3" controlId="nickname">
-                                    <FloatingLabel label={t('loginPage.nickname')}>
-                                        <Form.Control
-                                            type="text"
-                                            name="username"
-                                            value={formik.values.username}
-                                            onChange={handleInputChange}
-                                            placeholder={t('loginPage.nickname')}
-                                            required
-                                            autoFocus
-                                            isInvalid={formik.touched.username && isInvalid && errorMessage}
-                                        />
-                                    </FloatingLabel>
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <FloatingLabel label={t('loginPage.password')}>
-                                        <Form.Control
-                                            type="password"
-                                            name="password"
-                                            onChange={handleInputChange}
-                                            value={formik.values.password}
-                                            placeholder={t('loginPage.password')}
-                                            required
-                                            isInvalid={formik.touched.password && isInvalid && errorMessage}
-                                        />
-                                        <Form.Control.Feedback type="invalid" tooltip>{ t('form.errors.wrongNicknameorPassword') }</Form.Control.Feedback>
-                                    </FloatingLabel>
-                                </Form.Group>
-                                <Button type="submit" variant="outline-primary" className="w-100 mb-3">
-                                    {t('loginPage.login')}
-                                </Button>
-                            </Form>
+                                {({ handleSubmit, handleChange, values, touched, isSubmitting, errors }) => (
+                                    <Form 
+                                    className="col-12 col-md-6 mt-3 mt-md-0" 
+                                    onSubmit={handleSubmit}
+                                >
+                                    <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
+                                    <Form.Group className="mb-3" controlId="username">
+                                        <FloatingLabel label={t('loginPage.nickname')}>
+                                            <Form.Control
+                                                type="text"
+                                                name="username"
+                                                ref={inputRef}
+                                                value={values.username}
+                                                onChange={handleChange}
+                                                placeholder={t('loginPage.nickname')}
+                                                required
+                                                autoFocus={true}
+                                                isInvalid={touched.username && errors.username}
+                                            />
+                                        </FloatingLabel>
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="password">
+                                        <FloatingLabel label={t('loginPage.password')}>
+                                            <Form.Control
+                                                type="password"
+                                                name="password"
+                                                onChange={handleChange}
+                                                value={values.password}
+                                                placeholder={t('loginPage.password')}
+                                                required
+                                                isInvalid={touched.password && errors.password}
+                                            />
+                                            <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
+                                        </FloatingLabel>
+                                    </Form.Group>
+                                    <Button 
+                                        type="submit"
+                                        variant="outline-primary"
+                                        className="w-100 mb-3"
+                                        disabled={isSubmitting}
+                                    >
+                                        {t('loginPage.login')}
+                                    </Button>
+                                </Form>
+                                )}
+                            </Formik>
                         </Card.Body>
                         <Card.Footer className='p-4'>
                             <div className='text-center'>

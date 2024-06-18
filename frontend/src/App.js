@@ -5,6 +5,7 @@ import { ROUTES } from "./utils/routes.js";
 import Header from "./components/Header";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path={ROUTES.home} element={<Home />} />
         <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.signup} element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

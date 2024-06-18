@@ -24,7 +24,7 @@ const MessageForm = () => {
             });
         } catch (error) {
             if (error.message === 'Network Error') {
-                console.log(error.message, 'error in message form');
+                console.log(t('form.errors.network'));
             } else {
                 console.log('Sending message error: ', error.message);
             }
