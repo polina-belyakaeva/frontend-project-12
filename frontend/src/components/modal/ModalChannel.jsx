@@ -132,14 +132,14 @@ export const RemoveChannel = ({
     const handleRemoveChannel = async (modalChannelId) => {
        try {
         setType('');
-        const channelResponse = await removeChannel(modalChannelId).unwrap();
-        const messageResponse = await removeMessage(modalChannelId).unwrap();
-        if (channelResponse.error?.status === 'FETCH_ERROR' && messageResponse.error.status === 'FETCH_ERROR') {
+        const channelResponse = await removeChannel(modalChannelId);
+        const messageResponse = await removeMessage(modalChannelId);
+        if (channelResponse.error?.status === 'FETCH_ERROR' || messageResponse.error?.status === 'FETCH_ERROR') {
             toast.error(t("notification.networkErrorToast"));
+        } else {
+            addCurrentChannel({ id: "1" });
+            toast.success(t("notification.channelIsDeleted"));
         }
-
-        addCurrentChannel({ id: "1" });
-        toast.success(t("notification.channelIsDeleted"));
        } catch (error) {
         toast.error(t("notification.channelDeleteError"));
         console.log('Removing channel error: ', error);
