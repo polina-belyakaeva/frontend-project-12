@@ -7,11 +7,14 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <div className="d-flex flex-column vh-100 bg-light">
       <Header />
+      <ToastContainer />
       <Routes>
         <Route path={ROUTES.home} element={<Home />} />
         <Route path={ROUTES.login} element={<Login />} />

@@ -6,6 +6,8 @@ import { useAddChannelMutation, useRemoveChannelMutation, useEditChannelMutation
 import { useRemoveMessageMutation } from '../../api/messagesApi';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { useFormik } from 'formik';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const getValidationSchema = (channelNames, t) => yup.object({
     newChannelName: yup
@@ -33,11 +35,18 @@ export const AddNewChannel = ({
         try {
             setType('');
             const body = { name: newChannelName };
-            const { data: { id, name } } = await addChannel(body);
+            const response = await addChannel(body);
+            if (response.error?.status ==='FETCH_ERROR') {
+                toast.error(t("notification.networkErrorToast"));
+            }
+
+            const { data: { id, name } } = response;
+            toast.success(t("notification.channelIsCreated"));
             formik.resetForm();
             addCurrentChannel({ id, name });
         } catch (error) {
-            console.log('Adding new channel error: ', error);
+            toast.error(t("notification.channelAddError"));
+            console.log('Adding channel error: ', error);
         }
     };
 
@@ -123,10 +132,16 @@ export const RemoveChannel = ({
     const handleRemoveChannel = async (modalChannelId) => {
        try {
         setType('');
+        const channelResponse = await removeChannel(modalChannelId).unwrap();
+        const messageResponse = await removeMessage(modalChannelId).unwrap();
+        if (channelResponse.error?.status === 'FETCH_ERROR' && messageResponse.error.status === 'FETCH_ERROR') {
+            toast.error(t("notification.networkErrorToast"));
+        }
+
         addCurrentChannel({ id: "1" });
-        await removeChannel(modalChannelId);
-        await removeMessage(modalChannelId);
+        toast.success(t("notification.channelIsDeleted"));
        } catch (error) {
+        toast.error(t("notification.channelDeleteError"));
         console.log('Removing channel error: ', error);
     }
     };
@@ -202,10 +217,18 @@ export const RenameChannel = ({
         try {
             setType('');
             const body = { id: modalChannelId, name: newChannelName };
-            const { data: { id, name } } = await editChannel(body);
-            formik.resetForm();
-            addCurrentChannel({ id, name });
+            const response = await editChannel(body);
+
+            if (response.error?.status ==='FETCH_ERROR') {
+                toast.error(t("notification.networkErrorToast"));
+            } else {
+                const { data: { id, name } } = response;
+                toast.success(t("notification.channelIsRenamed"));
+                formik.resetForm();
+                addCurrentChannel({ id, name });
+            }
         } catch (error) {
+            toast.error(t("notification.channelRenameError"));
             console.log('Rename chanel error: ', error);
         }
     };

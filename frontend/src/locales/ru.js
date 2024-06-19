@@ -42,6 +42,16 @@ export default {
       key_few: "{{count}} сообщения",
       key_many: "{{count}} сообщений",
     },
+    notification: {
+      channelIsCreated: "Канал создан",
+      channelIsDeleted: "Канал удален",
+      channelIsRenamed: "Канал переименован",
+      channelAddError: "Ошибка создания канала. Попробуйте снова позднее",
+      channelDeleteError: "Ошибка при удалении канала. Попробуйте снова позднее",
+      channelRenameError: "Ошибка при переименовании канала. Попробуйте снова позднее",
+      messageSendError: "Ошибка при отправки сообщения. Попробуйте снова позднее",
+      networkErrorToast: "Ошибка соединения",
+    },
     form: {
       errors: {
         required: "Обязательное поле",

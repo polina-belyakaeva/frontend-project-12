@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMessagesQuery } from '../../api/messagesApi';
 import { useTranslation } from 'react-i18next';
-import store from '../../slices/store/index'
 
 const ChatHeader = () => {
     const { t } = useTranslation();

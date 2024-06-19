@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { setCurrentChannel, setModalChannel, setModalType } from '../../slices/uiSlice.js';
 import { useGetChannelsQuery, channelsApi } from '../../api/channelsApi';
 import NewModal from '../modal/index';
-import store from '../../slices/store/index';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { socket } from '../../socket';
 
 const Channels = () => {
@@ -26,8 +27,9 @@ const Channels = () => {
                   'getChannels',
                   undefined,
                   (draftChannels) => { draftChannels.push(newChannel); },
+                  
                 ),
-              );
+            );
         };
         const handleDeleteChannel = ({ id }) => {
             dispatch(
@@ -60,7 +62,7 @@ const Channels = () => {
             socket.off('removeChannel');
             socket.off('renameChannel');
         }
-    }, [dispatch, socket]);
+    }, [dispatch, socket, toast]);
     
     const handleCurrentChat = (channel) => {
         addCurrentChat(channel);

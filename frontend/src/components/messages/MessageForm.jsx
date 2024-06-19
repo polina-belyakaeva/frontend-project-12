@@ -1,33 +1,31 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { API_ROUTES } from '../../utils/routes.js';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import axios from 'axios';
+import { toast } from "react-toastify";
+import { useAddMessageMutation } from '../../api/messagesApi';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MessageForm = () => {
     const { t } = useTranslation();
-    const { token, username } = useSelector((state) => state.auth);
+    const { username } = useSelector((state) => state.auth);
     const { currentChannel } = useSelector((state) => state.ui);
     const channelId = currentChannel.id;
+    const [addMessage] = useAddMessageMutation();
 
     const handleSubmit = async (values) => {
         const newMessage = { body: values.message, channelId, username: values.username };
         try {
-            await axios.post(API_ROUTES.messages(), newMessage, {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            }).then(() => {
-                formik.resetForm();
-            });
-        } catch (error) {
-            if (error.message === 'Network Error') {
-                console.log(t('form.errors.network'));
-            } else {
-                console.log('Sending message error: ', error.message);
+            const response = await addMessage(newMessage);
+            if (response.error.status === 'FETCH_ERROR') {
+                toast.error(t("notification.networkErrorToast"));
             }
+            
+            formik.resetForm();
+        } catch (error) {
+            toast.error(t("notification.messageSendError"));
+            console.log('Sending message error: ', error);
         }
     };
 
