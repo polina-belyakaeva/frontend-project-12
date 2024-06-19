@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { toast } from "react-toastify";
 import { useAddMessageMutation } from '../../api/messagesApi';
 import 'react-toastify/dist/ReactToastify.css';
+import filter from 'leo-profanity';
 
 const MessageForm = () => {
     const { t } = useTranslation();
@@ -15,10 +16,12 @@ const MessageForm = () => {
     const [addMessage] = useAddMessageMutation();
 
     const handleSubmit = async (values) => {
-        const newMessage = { body: values.message, channelId, username: values.username };
+        const { message } = values;
+        const cleanMessage = filter.clean(message)
+        const newMessage = { body: cleanMessage, channelId, username: values.username };
         try {
             const response = await addMessage(newMessage);
-            if (response.error.status === 'FETCH_ERROR') {
+            if (response.error?.status === 'FETCH_ERROR') {
                 toast.error(t("notification.networkErrorToast"));
             }
             

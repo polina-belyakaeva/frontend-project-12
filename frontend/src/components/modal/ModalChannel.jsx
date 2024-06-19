@@ -8,6 +8,7 @@ import { useGetChannelsQuery } from '../../api/channelsApi';
 import { useFormik } from 'formik';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import filter from 'leo-profanity';
 
 const getValidationSchema = (channelNames, t) => yup.object({
     newChannelName: yup
@@ -34,7 +35,8 @@ export const AddNewChannel = ({
     const addNewChannel = async (newChannelName) => {
         try {
             setType('');
-            const body = { name: newChannelName };
+            const cleanName = filter.clean(newChannelName)
+            const body = { name: cleanName };
             const response = await addChannel(body);
             if (response.error?.status ==='FETCH_ERROR') {
                 toast.error(t("notification.networkErrorToast"));
@@ -216,7 +218,8 @@ export const RenameChannel = ({
     const renameChannel = async (newChannelName) => {
         try {
             setType('');
-            const body = { id: modalChannelId, name: newChannelName };
+            const cleanName = filter.clean(newChannelName);
+            const body = { id: modalChannelId, name: cleanName };
             const response = await editChannel(body);
 
             if (response.error?.status ==='FETCH_ERROR') {
