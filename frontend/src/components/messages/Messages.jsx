@@ -5,7 +5,7 @@ import { socket } from '../../socket';
 
 const Messages = () => {
   const dispatch = useDispatch();
-  const { data = [], refetch } = useGetMessagesQuery();
+  const { data = [] } = useGetMessagesQuery();
 
   useEffect(() => {
       const handleMessages = (newMessage) => {
@@ -19,7 +19,7 @@ const Messages = () => {
       socket.on('newMessage', handleMessages);
 
       return () => socket.off('newMessage');
-    }, [dispatch, refetch]);
+  }, [dispatch]);
 
     const { currentChannel } = useSelector((state) => state.ui);
     const filteredMessages = data.filter((message) => message.channelId === currentChannel.id);

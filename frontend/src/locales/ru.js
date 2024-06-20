@@ -21,13 +21,20 @@ export default {
       confirmPassword: "Подтвердите пароль",
       signup: "Зарегистрироваться",
     },
+    notFoundPage: {
+      notFound: "Страница не найдена",
+      redirectToSignup: "Но вы можете перейти на",
+      mainPage: "главную страницу",
+    },
     chat: {
       typeMessage: "Введите сообщение...",
+      loading: "Загружаем данные",
     },
     channels: {
       channels: "Каналы",
       delete: "Удалить",
       edit: "Переименовать",
+      addChannel: "+",
       modal: {
         modalAddChannel: "Добавить канал",
         modalCancel: "Отменить",
@@ -44,12 +51,8 @@ export default {
     },
     notification: {
       channelIsCreated: "Канал создан",
-      channelIsDeleted: "Канал удален",
+      channelIsDeleted: "Канал удалён",
       channelIsRenamed: "Канал переименован",
-      channelAddError: "Ошибка создания канала. Попробуйте снова позднее",
-      channelDeleteError: "Ошибка при удалении канала. Попробуйте снова позднее",
-      channelRenameError: "Ошибка при переименовании канала. Попробуйте снова позднее",
-      messageSendError: "Ошибка при отправки сообщения. Попробуйте снова позднее",
       networkErrorToast: "Ошибка соединения",
     },
     form: {

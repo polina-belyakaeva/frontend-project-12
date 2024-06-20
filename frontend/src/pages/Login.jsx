@@ -20,9 +20,10 @@ const Login = () => {
 
     const { t } = useTranslation();
 
-    const handleSubmit = async ({ username, password }, { setSubmitting, setErrors, setFieldTouched, errors }) => {
+    const handleSubmit = async ({ username, password }, { setSubmitting, setErrors, setFieldTouched }) => {
         try { 
             const response = await loginUser({ username, password });
+
             if (response.error?.status === 401) {
                 console.log('401');
                 setErrors({ 
@@ -66,14 +67,14 @@ const Login = () => {
                                 <Image src={loginAvatar} alt={t('loginPage.imgAlt')} className="rounded-circle" />
                             </Col>
                             <Formik
-                            initialValues={{ username: '', password: '',}}
+                            initialValues={{ username: '', password: '', }}
                             onSubmit={handleSubmit}
                             >
                                 {({ handleSubmit, handleChange, values, touched, isSubmitting, errors }) => (
                                     <Form 
                                     className="col-12 col-md-6 mt-3 mt-md-0" 
                                     onSubmit={handleSubmit}
-                                >
+                                    >
                                     <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
                                     <Form.Group className="mb-3" controlId="username">
                                         <FloatingLabel label={t('loginPage.nickname')}>
@@ -117,10 +118,10 @@ const Login = () => {
                             </Formik>
                         </Card.Body>
                         <Card.Footer className='p-4'>
-                            <div className='text-center'>
-                                {t('loginPage.footer.isAccountExist')}{' '}
+                            <Card.Text className='d-flex justify-content-center align-content-center'>
+                                {t('loginPage.footer.isAccountExist')}&nbsp;
                                 <Link to="/signup">{t('loginPage.footer.signup')}</Link>
-                            </div>
+                            </Card.Text>
                         </Card.Footer>
                     </Card>
                 </Col>

@@ -76,10 +76,11 @@ const Signup = () => {
                                 onSubmit={handleSubmit}
                                 validationSchema={signupSchema}
                             >
-                             {({ handleSubmit, handleChange, values, touched, isSubmitting, errors }) => (
+                             {({ handleSubmit, handleChange, handleBlur, values, touched, isSubmitting, errors }) => (
                                 <Form
                                 className='w-50'
                                 onSubmit={handleSubmit}
+                                autoComplete="off"
                             >
                                  <h1 className="text-center mb-4">{t('signupPage.signupTitle')}</h1>
                                  <Form.Group className="mb-3" controlId="username">
@@ -89,8 +90,9 @@ const Signup = () => {
                                                 name="username"
                                                 value={values.username}
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 placeholder={t('signupPage.username')}
-                                                autoComplete="off"
+                                                autoComplete="new-username"
                                                 required
                                                 autoFocus
                                                 isInvalid={touched.username && errors.username}
@@ -104,9 +106,10 @@ const Signup = () => {
                                                 type="password"
                                                 name="password"
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 value={values.password}
                                                 placeholder={t('signupPage.password')}
-                                                autoComplete="off"
+                                                autoComplete="new-password"
                                                 required
                                                 isInvalid={touched.password && errors.password}
                                             />
@@ -119,9 +122,10 @@ const Signup = () => {
                                                 type="password"
                                                 name="passwordConfirm"
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 value={values.passwordConfirm}
                                                 placeholder={t('signupPage.passwordConfirm')}
-                                                autoComplete="off"
+                                                autoComplete="new-password-confirm"
                                                 required
                                                 isInvalid={touched.passwordConfirm && errors.passwordConfirm}
                                             />
