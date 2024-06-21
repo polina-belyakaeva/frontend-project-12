@@ -12,7 +12,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
-    "eslint-config-airbnb": "^19.0.4",
     "formik": "^2.4.6",
     "i18next": "^23.11.3",
     "js-logger": "^1.6.1",
@@ -38,7 +37,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -61,7 +61,11 @@
   "devDependencies": {
     "@eslint/js": "^9.3.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.3.0"
   }
 }

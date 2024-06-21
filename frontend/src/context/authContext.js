@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentChannel } from "../slices/uiSlice";
 import { useNavigate } from "react-router-dom";
