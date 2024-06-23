@@ -98,7 +98,10 @@ const Channels = () => {
                     <Nav.Item key={channel.id} className='w-100'>
                         {channel.removable ? (
                             <Dropdown as={ButtonGroup} className='w-100 d-flex'>
-                                <Button className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`} onClick={() => handleCurrentChat(channel)}>
+                                <Button 
+                                    className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
+                                    onClick={() => handleCurrentChat(channel)}
+                                    name={channel.name}>
                                     <span># </span>
                                     {channel.name}
                                 </Button>
@@ -111,7 +114,12 @@ const Channels = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         ) : (
-                            <Button type="button" className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`} onClick={() => handleCurrentChat(channel)}>
+                            <Button 
+                                type="button"
+                                className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
+                                onClick={() => handleCurrentChat(channel)}
+                                name={channel.name}
+                                >
                                 <span># </span>
                                 {channel.name}
                             </Button>

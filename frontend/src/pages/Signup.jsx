@@ -133,7 +133,6 @@ const Signup = () => {
                                     </FloatingLabel>
                                  </Form.Group>
                                  <Button 
-                                    name='general'
                                     type="submit"
                                     variant="outline-primary"
                                     className="w-100 mb-3"
