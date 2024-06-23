@@ -76,9 +76,11 @@ const Login = () => {
                                     onSubmit={handleSubmit}
                                     >
                                     <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
-                                    <Form.Group className="mb-3" controlId="username">
-                                        <FloatingLabel label={t('loginPage.nickname')}>
-                                        <Form.Label className="visually-hidden" htmlFor="username">{t('loginPage.nickname')}</Form.Label>
+                                    <Form.Group className="mb-3">
+                                        <FloatingLabel 
+                                        label={t('loginPage.nickname')}
+                                        controlId="username"
+                                        >
                                             <Form.Control
                                                 type="text"
                                                 name="username"
@@ -93,9 +95,11 @@ const Login = () => {
                                             />
                                         </FloatingLabel>
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="password">
-                                        <FloatingLabel label={t('loginPage.password')}>
-                                        <Form.Label className="visually-hidden" htmlFor="password">{t('loginPage.password')}</Form.Label>
+                                    <Form.Group className="mb-3">
+                                        <FloatingLabel 
+                                        label={t('loginPage.password')}
+                                        controlId="password"
+                                        >
                                             <Form.Control
                                                 type="password"
                                                 name="password"

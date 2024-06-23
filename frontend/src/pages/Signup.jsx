@@ -126,7 +126,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="password"
                                                 name="passwordConfirm"
-                                                id="passwordConfirm"
+                                                id="password"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.passwordConfirm}
