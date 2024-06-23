@@ -137,6 +137,7 @@ const Signup = () => {
                                  </Form.Group>
                                  <Button 
                                     type="submit"
+                                    aria-label={t('signupPage.signup')}
                                     variant="outline-primary"
                                     className="w-100 mb-3"
                                     disabled={isSubmitting}
