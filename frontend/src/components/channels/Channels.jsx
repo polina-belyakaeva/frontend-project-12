@@ -101,6 +101,7 @@ const Channels = () => {
                                 <Button 
                                     className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                     onClick={() => handleCurrentChat(channel)}
+                                    role="button"
                                     name={channel.name}>
                                     <span># </span>
                                     {channel.name}
@@ -118,6 +119,7 @@ const Channels = () => {
                                 type="button"
                                 className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                 onClick={() => handleCurrentChat(channel)}
+                                role="button"
                                 name={channel.name}
                                 >
                                 <span># </span>
