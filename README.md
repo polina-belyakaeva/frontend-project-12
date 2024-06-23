@@ -1,6 +1,18 @@
 ### Hexlet tests and linter status:
+
 [![Actions Status](https://github.com/polina-belyakaeva/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/polina-belyakaeva/frontend-project-12/actions)
 
-
 # Hexlet-chat
-[Try Chat](https://frontend-project-12-7r14.onrender.com)
+
+is an application for communicating with friends online and creating thematic channels.
+Register an account and stay connected with the community.
+
+:envelope: [Try Chat](https://frontend-project-12-7r14.onrender.com)
+
+# Install the app
+
+```
+$ git clone git@github.com:polina-belyakaeva/frontend-project-11.git
+$ make install
+$ make start
+```
