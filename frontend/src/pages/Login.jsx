@@ -78,9 +78,11 @@ const Login = () => {
                                     <h1 className="text-center mb-4">{t('loginPage.login')}</h1>
                                     <Form.Group className="mb-3" controlId="username">
                                         <FloatingLabel label={t('loginPage.nickname')}>
+                                        <Form.Label className="visually-hidden" htmlFor="username">{t('loginPage.nickname')}</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="username"
+                                                id='username'
                                                 ref={inputRef}
                                                 value={values.username}
                                                 onChange={handleChange}
@@ -93,9 +95,11 @@ const Login = () => {
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="password">
                                         <FloatingLabel label={t('loginPage.password')}>
+                                        <Form.Label className="visually-hidden" htmlFor="password">{t('loginPage.password')}</Form.Label>
                                             <Form.Control
                                                 type="password"
                                                 name="password"
+                                                id='password'
                                                 onChange={handleChange}
                                                 value={values.password}
                                                 placeholder={t('loginPage.password')}
@@ -107,6 +111,7 @@ const Login = () => {
                                     </Form.Group>
                                     <Button 
                                         type="submit"
+                                        aria-label={t('loginPage.login')}
                                         variant="outline-primary"
                                         className="w-100 mb-3"
                                         disabled={isSubmitting}
