@@ -88,7 +88,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="text"
                                                 name="username"
-                                                aria-label='username'
+                                                aria-label={t('signupPage.username')}
                                                 value={values.username}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -106,7 +106,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="password"
                                                 name="password"
-                                                aria-label='password'
+                                                aria-label={t('signupPage.password')}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.password}
@@ -123,7 +123,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="password"
                                                 name="passwordConfirm"
-                                                aria-label='passwordConfirm'
+                                                aria-label={t('signupPage.confirmPassword')}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.passwordConfirm}
