@@ -83,9 +83,11 @@ const Signup = () => {
                                 autoComplete="off"
                             >
                                  <h1 className="text-center mb-4">{t('signupPage.signupTitle')}</h1>
-                                 <Form.Group className="mb-3" controlId="username">
-                                    <Form.Label className="visually-hidden" htmlFor="username">{t('signupPage.username')}</Form.Label>
-                                    <FloatingLabel label={t('signupPage.username')}>
+                                 <Form.Group className="mb-3">
+                                    <FloatingLabel
+                                    label={t('signupPage.username')}
+                                    controlId="username"
+                                    >
                                         <Form.Control
                                                 type="text"
                                                 name="username"
@@ -102,9 +104,11 @@ const Signup = () => {
                                         <Form.Control.Feedback type="invalid" tooltip>{errors.username}</Form.Control.Feedback>
                                     </FloatingLabel>
                                  </Form.Group>
-                                 <Form.Group className="mb-4" controlId="password">
-                                    <FloatingLabel label={t('signupPage.password')}>
-                                        <Form.Label className="visually-hidden" htmlFor="password">{t('signupPage.password')}</Form.Label>
+                                 <Form.Group className="mb-4">
+                                    <FloatingLabel
+                                    label={t('signupPage.password')}
+                                    controlId="password"
+                                    >
                                         <Form.Control
                                                 type="password"
                                                 name="password"
@@ -117,12 +121,14 @@ const Signup = () => {
                                                 required
                                                 isInvalid={touched.password && errors.password}
                                             />
-                                        <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
                                     </FloatingLabel>
                                  </Form.Group>
-                                 <Form.Group className="mb-4" controlId="passwordConfirm">
-                                    <FloatingLabel label={t('signupPage.confirmPassword')}>
-                                    <Form.Label className="visually-hidden" htmlFor="passwordConfirm">{t('signupPage.confirmPassword')}</Form.Label>
+                                 <Form.Group className="mb-4">
+                                    <FloatingLabel
+                                    label={t('signupPage.confirmPassword')}
+                                    controlId="passwordConfirm"
+                                    >
                                         <Form.Control
                                                 type="password"
                                                 name="passwordConfirm"
