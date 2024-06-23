@@ -92,7 +92,7 @@ export const AddNewChannel = ({
                             value={formik.values.newChannelName}
                             disabled={formik.isSubmitting}
                         />
-                        <label className="visually-hidden" htmlFor="newChannelName">{t('channels.modal.modalAddChannel')}</label>
+                        <Form.Label className="visually-hidden" htmlFor="newChannelName">{t('channels.modal.modalAddChannel')}</Form.Label>
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.newChannelName}
                         </Form.Control.Feedback>
