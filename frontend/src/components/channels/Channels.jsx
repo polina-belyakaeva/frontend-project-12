@@ -80,6 +80,7 @@ const Channels = () => {
         const payload = {type};
         setType(payload);
     }
+    console.log('Отображаемые каналы:', channels);
     
     return (
         <Col className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
@@ -99,11 +100,12 @@ const Channels = () => {
                         {channel.removable ? (
                             <Dropdown as={ButtonGroup} className='w-100 d-flex'>
                                 <Button
-                                    className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
+                                    className={`w-100 rounded-0 text-start text-truncate ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                     onClick={() => handleCurrentChat(channel)}
                                     type="button"
                                     role="button"
-                                    aria-label={channel.name}>
+                                    aria-label={channel.name}
+                                    >
                                     <span># </span>
                                     {channel.name}
                                 </Button>
@@ -118,9 +120,9 @@ const Channels = () => {
                         ) : (
                             <Button
                                 type="button"
+                                role="button"
                                 className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                 onClick={() => handleCurrentChat(channel)}
-                                role="button"
                                 aria-label={channel.name}
                                 >
                                 <span># </span>

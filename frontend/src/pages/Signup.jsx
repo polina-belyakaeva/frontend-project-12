@@ -88,6 +88,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="text"
                                                 name="username"
+                                                aria-label='username'
                                                 value={values.username}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -105,6 +106,7 @@ const Signup = () => {
                                         <Form.Control
                                                 type="password"
                                                 name="password"
+                                                aria-label='password'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.password}
@@ -121,10 +123,11 @@ const Signup = () => {
                                         <Form.Control
                                                 type="password"
                                                 name="passwordConfirm"
+                                                aria-label='passwordConfirm'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.passwordConfirm}
-                                                placeholder={t('signupPage.passwordConfirm')}
+                                                placeholder={t('signupPage.confirmPassword')}
                                                 autoComplete="new-password-confirm"
                                                 required
                                                 isInvalid={touched.passwordConfirm && errors.passwordConfirm}
