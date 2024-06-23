@@ -14,7 +14,6 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const navbarRoute = token ? ROUTES.home : ROUTES.login;
-    const navbarTitle = "Hexlet Chat";
 
     const handleLogout = () => {
         dispatch(fullLogout());
@@ -24,7 +23,7 @@ const Header = () => {
     return (
         <Navbar expand="lg" className="shadow-sm navbar-light bg-white">
             <Container>
-            <Navbar.Brand as={Link} to={navbarRoute}>{navbarTitle}</Navbar.Brand>
+            <Navbar.Brand as={Link} to={navbarRoute}>{t("header.title")}</Navbar.Brand>
             {token ? (
             <Button type="button" className="btn btn-primary" onClick={handleLogout}>{t('header.logout')}</Button>
             ):(null)}
