@@ -4,6 +4,9 @@ lint:
 install:
 	npm ci && make -C frontend install
 
+publish:
+	npm publish --dry-run
+
 start-frontend:
 	cd frontend && npm start
 
