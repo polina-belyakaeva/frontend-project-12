@@ -98,9 +98,10 @@ const Channels = () => {
                     <Nav.Item key={channel.id} className='w-100'>
                         {channel.removable ? (
                             <Dropdown as={ButtonGroup} className='w-100 d-flex'>
-                                <Button 
+                                <Button
                                     className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                     onClick={() => handleCurrentChat(channel)}
+                                    type="button"
                                     role="button"
                                     aria-label={channel.name}>
                                     <span># </span>
@@ -115,7 +116,7 @@ const Channels = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         ) : (
-                            <Button 
+                            <Button
                                 type="button"
                                 className={`w-100 rounded-0 text-start text-truncate btn ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
                                 onClick={() => handleCurrentChat(channel)}
