@@ -41,8 +41,11 @@ const ru = {
         modalCancel: "Отменить",
         modalSend: "Отправить",
         deleteChannel: "Удалить канал",
+        modalClose: "Закрыть",
         sure: "Уверены?",
         editChannel: "Переименовать канал",
+        channelName: "Имя канала",
+        channelManagment: "Управление каналом",
       },
     },
     messages: {

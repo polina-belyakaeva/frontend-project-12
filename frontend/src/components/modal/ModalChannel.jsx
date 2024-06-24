@@ -75,15 +75,16 @@ export const AddNewChannel = ({
                     variant='close'
                     onClick={handleClose}
                     data-bs-dismiss="modal"
-                    aria-label="Close"
+                    aria-label={t('channels.modal.modalClose')}
                 />
             </Modal.Header>
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
-                    <Form.Group className="mb-2" controlId="form.ControlInput">
+                    <Form.Group className="mb-2">
                         <Form.Control
                             type="text"
                             name='newChannelName'
+                            aria-label={t("channels.modal.channelName")}
                             placeholder=""
                             autoFocus
                             onChange={formik.handleChange}
@@ -100,13 +101,17 @@ export const AddNewChannel = ({
                             <Button
                                 className='me-2'
                                 variant="secondary"
-                                onClick={handleClose}>
+                                onClick={handleClose}
+                                aria-label={t("channels.modal.modalCancel")}
+                                >
                                 {t('channels.modal.modalCancel')}
                             </Button>
                             <Button
                                 variant="primary"
                                 type="submit"
-                                disabled={formik.isSubmitting}>
+                                disabled={formik.isSubmitting}
+                                aria-label={t('channels.modal.modalSend')}
+                                >
                                 {t('channels.modal.modalSend')}
                             </Button>
                         </Modal.Footer>
@@ -158,7 +163,7 @@ export const RemoveChannel = ({
                     variant='close'
                     onClick={handleClose}
                     data-bs-dismiss="modal"
-                    aria-label="Close"
+                    aria-label={t('channels.modal.modalClose')}
                 />
             </Modal.Header>
             <Modal.Body className="mb-0 pb-0">
@@ -168,6 +173,7 @@ export const RemoveChannel = ({
                         className='me-2'
                         variant="secondary"
                         onClick={handleClose}
+                        aria-label={t('channels.modal.modalCancel')}
                     >
                         {t('channels.modal.modalCancel')}
                     </Button>
@@ -176,6 +182,7 @@ export const RemoveChannel = ({
                         type="submit"
                         onClick={() => handleRemoveChannel(modalChannelId)}
                         disabled={isRemovingChannel || isRemovingMessage}
+                        aria-label={t('channels.modal.deleteChannel')}
                     >
                         {t('channels.modal.deleteChannel')}
                     </Button>
@@ -250,15 +257,16 @@ export const RenameChannel = ({
                     variant='close'
                     onClick={handleClose}
                     data-bs-dismiss="modal"
-                    aria-label="Close"
+                    aria-label={t('channels.modal.modalClose')}
                 />
             </Modal.Header>
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
-                    <Form.Group className="mb-2" controlId="form.ControlInput">
+                    <Form.Group className="mb-2">
                         <Form.Control
                             type="text"
                             name='newChannelName'
+                            aria-label={t('channels.modal.channelManagment')}
                             ref={inputRef}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -266,7 +274,6 @@ export const RenameChannel = ({
                             value={formik.values.newChannelName}
                             disabled={formik.isSubmitting}
                         />
-                        <label className="visually-hidden" htmlFor="newChannelName">{t('channels.modal.modalAddChannel')}</label>
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.newChannelName}
                         </Form.Control.Feedback>
@@ -274,13 +281,17 @@ export const RenameChannel = ({
                             <Button
                                 className='me-2'
                                 variant="secondary"
-                                onClick={handleClose}>
+                                onClick={handleClose}
+                                aria-label={t('channels.modal.modalCancel')}
+                                >
                                 {t('channels.modal.modalCancel')}
                             </Button>
                             <Button
                                 variant="primary"
                                 type="submit"
-                                disabled={formik.isSubmitting}>
+                                disabled={formik.isSubmitting}
+                                aria-label={t('channels.modal.modalSend')}
+                                >
                                 {t('channels.modal.modalSend')}
                             </Button>
                         </Modal.Footer>
