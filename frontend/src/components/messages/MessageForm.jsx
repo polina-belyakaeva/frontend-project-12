@@ -41,7 +41,6 @@ const MessageForm = () => {
                 {({ handleSubmit, handleChange, values, isSubmitting }) => (
                     <Form noValidate className='py-1 border rounded-2' onSubmit={handleSubmit}>
                     <InputGroup hasValidation>
-                    <Form.Label className="visually-hidden" htmlFor="newMessage">{t("messages.newMessage")}</Form.Label>
                         <Form.Control
                         type="text"
                         name="message"
