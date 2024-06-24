@@ -81,9 +81,11 @@ export const AddNewChannel = ({
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-2">
+                    <Form.Label className="visually-hidden" htmlFor="channelName">{t("channels.modal.channelName")}</Form.Label>
                         <Form.Control
                             type="text"
                             name='newChannelName'
+                            id='channelName'
                             aria-label={t("channels.modal.channelName")}
                             placeholder=""
                             autoFocus
@@ -93,7 +95,6 @@ export const AddNewChannel = ({
                             value={formik.values.newChannelName}
                             disabled={formik.isSubmitting}
                         />
-                        <Form.Label className="visually-hidden" htmlFor="newChannelName">{t('channels.modal.modalAddChannel')}</Form.Label>
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.newChannelName}
                         </Form.Control.Feedback>
@@ -263,9 +264,11 @@ export const RenameChannel = ({
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-2">
+                        <Form.Label className="visually-hidden" htmlFor="newMessage">{t('channels.modal.channelManagment')}</Form.Label>
                         <Form.Control
                             type="text"
                             name='newChannelName'
+                            id='newMessage'
                             aria-label={t('channels.modal.channelManagment')}
                             ref={inputRef}
                             onChange={formik.handleChange}
