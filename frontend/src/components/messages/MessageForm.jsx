@@ -25,6 +25,7 @@ const MessageForm = () => {
                 toast.error(t("notification.networkErrorToast"));
             } else {
                 resetForm();
+
             }      
         } catch (error) {
             toast.error(t("notification.messageSendError"));
@@ -50,6 +51,7 @@ const MessageForm = () => {
                             aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
+                            autoFocus={true}
                             onChange={handleChange}
                             value={values.message}
                             />
