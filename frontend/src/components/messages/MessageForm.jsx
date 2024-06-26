@@ -40,11 +40,11 @@ const MessageForm = () => {
             >
                 {({ handleSubmit, handleChange, values, isSubmitting }) => (
                     <Form noValidate className='py-1 border rounded-2' onSubmit={handleSubmit}>
-                        <InputGroup hasValidation>
+                        <InputGroup hasValidation  controlId="message">
                             <Form.Control
                             type="text"
-                            name="newMessage"
-                            id="newMessage"
+                            name="message"
+                            id="message"
                             aria-label={t("messages.newMessage")}
                             placeholder={t('chat.typeMessage')}
                             className='border-0 p-0 ps-2 form-control'
