@@ -47,7 +47,7 @@ const MessageForm = () => {
                             name="message"
                             id='newMessage'
                             placeholder={t('chat.typeMessage')}
-                            // aria-label={t('messages.newMessage')}
+                            aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
                             onChange={handleChange}
