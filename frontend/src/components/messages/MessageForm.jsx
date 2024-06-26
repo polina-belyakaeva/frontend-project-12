@@ -15,7 +15,7 @@ const MessageForm = () => {
     const channelId = currentChannel.id;
     const [addMessage] = useAddMessageMutation();
 
-    const handleSubmit = async (values, { resetForm }) => {
+    const handleSubmit = async (values, { resetForm, autoFocus }) => {
         const { message } = values;
         const cleanMessage = filter.clean(message)
         const newMessage = { body: cleanMessage, channelId, username };
@@ -25,7 +25,7 @@ const MessageForm = () => {
                 toast.error(t("notification.networkErrorToast"));
             } else {
                 resetForm();
-
+                autoFocus();
             }      
         } catch (error) {
             toast.error(t("notification.messageSendError"));
@@ -51,7 +51,6 @@ const MessageForm = () => {
                             aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
-                            autoFocus={true}
                             onChange={handleChange}
                             value={values.message}
                             />
