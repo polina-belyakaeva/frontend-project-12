@@ -109,7 +109,7 @@ const Channels = () => {
                                     {channel.name}
                                 </Button>
                                 <Dropdown.Toggle split className={`flex-grow-0 ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}>
-                                    <Dropdown.Label className="visually-hidden">{t('channels.modal.channelManagment')}</Dropdown.Label>
+                                    <span className="visually-hidden">{t('channels.modal.channelManagment')}</span>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={() => setModalClick(channel, 'deleteChannel')}>{t('channels.delete')}</Dropdown.Item>
