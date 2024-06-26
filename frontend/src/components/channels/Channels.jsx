@@ -80,7 +80,6 @@ const Channels = () => {
         const payload = {type};
         setType(payload);
     }
-    console.log('Отображаемые каналы:', channels);
     
     return (
         <Col className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
@@ -110,7 +109,7 @@ const Channels = () => {
                                     {channel.name}
                                 </Button>
                                 <Dropdown.Toggle split className={`flex-grow-0 ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}>
-                                    <span className="visually-hidden">{t('channels.menu')}</span>
+                                    <Dropdown.Label className="visually-hidden">{t('channels.modal.channelManagment')}</Dropdown.Label>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={() => setModalClick(channel, 'deleteChannel')}>{t('channels.delete')}</Dropdown.Item>
