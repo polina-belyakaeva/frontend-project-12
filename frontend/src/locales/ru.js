@@ -54,6 +54,7 @@ const ru = {
       key_many: "{{count}} сообщений",
       send: "Отправить",
       newMessage: "Новое сообщение",
+      sendMessage: "Отправить новое сообщение",
     },
     notification: {
       channelIsCreated: "Канал создан",
