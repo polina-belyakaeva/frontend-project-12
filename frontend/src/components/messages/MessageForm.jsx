@@ -44,7 +44,7 @@ const MessageForm = () => {
                             <Form.Control
                             type="text"
                             name="message"
-                            id='newMessage'
+                            // id='newMessage'
                             placeholder={t('chat.typeMessage')}
                             aria-label={t("messages.newMessage")}
                             className='border-0 p-0 ps-2 form-control'
@@ -58,7 +58,7 @@ const MessageForm = () => {
                                 </svg>
                                 <span className='visually-hidden'>{t('messages.send')}</span>
                             </Button>
-                    </InputGroup>
+                        </InputGroup>
                 </Form>
             )}
             </Formik>
