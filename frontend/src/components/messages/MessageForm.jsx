@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form, InputGroup, Button } from 'react-bootstrap';
@@ -14,8 +14,9 @@ const MessageForm = () => {
     const { currentChannel } = useSelector((state) => state.ui);
     const channelId = currentChannel.id;
     const [addMessage] = useAddMessageMutation();
+    const inputRef = useRef(null);
 
-    const handleSubmit = async (values, { resetForm, autoFocus }) => {
+    const handleSubmit = async (values, { resetForm }) => {
         const { message } = values;
         const cleanMessage = filter.clean(message)
         const newMessage = { body: cleanMessage, channelId, username };
@@ -25,10 +26,10 @@ const MessageForm = () => {
                 toast.error(t("notification.networkErrorToast"));
             } else {
                 resetForm();
-                autoFocus();
+                inputRef.current?.focus();
             }      
         } catch (error) {
-            toast.error(t("notification.messageSendError"));
+            toast.error(t("notification.networkErrorToast"));
             console.log('Sending message error: ', error);
         }
     };
@@ -47,6 +48,7 @@ const MessageForm = () => {
                             type="text"
                             name="message"
                             id='newMessage'
+                            ref={inputRef}
                             placeholder={t('chat.typeMessage')}
                             aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
