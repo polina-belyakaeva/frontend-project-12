@@ -43,10 +43,10 @@ const MessageForm = () => {
                         <InputGroup hasValidation>
                             <Form.Control
                             type="text"
-                            name="message"
-                            // id='newMessage'
-                            placeholder={t('chat.typeMessage')}
+                            name="newMessage"
+                            id="newMessage"
                             aria-label={t("messages.newMessage")}
+                            placeholder={t('chat.typeMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
                             onChange={handleChange}
