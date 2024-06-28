@@ -16,10 +16,6 @@ const MessageForm = () => {
     const [addMessage] = useAddMessageMutation();
     const inputRef = useRef(null);
 
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, [inputRef]);
-
     const handleSubmit = async (values, { resetForm }) => {
         const { message } = values;
         const cleanMessage = filter.clean(message)
