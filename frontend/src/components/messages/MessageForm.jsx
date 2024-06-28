@@ -16,6 +16,10 @@ const MessageForm = () => {
     const [addMessage] = useAddMessageMutation();
     const inputRef = useRef(null);
 
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
     const handleSubmit = async (values, { resetForm }) => {
         const { message } = values;
         const cleanMessage = filter.clean(message)
@@ -34,13 +38,6 @@ const MessageForm = () => {
         }
     };
 
-    const handleKeyDown = (event, handleSubmit) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-            handleSubmit();
-        }
-    };
-
     return (
         <div className='mt-auto px-5 py-3'>
             <Formik
@@ -56,13 +53,17 @@ const MessageForm = () => {
                             name="message"
                             id='newMessage'
                             ref={inputRef}
-                            // autoFocus='autofocus'
                             placeholder={t('chat.typeMessage')}
                             aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
                             onChange={handleChange}
-                            onKeyDown={(e) => handleKeyDown(e, handleSubmit)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSubmit();
+                                }
+                            }}
                             value={values.message}
                             />
                             <Button
