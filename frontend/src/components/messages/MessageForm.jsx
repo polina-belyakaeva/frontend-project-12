@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form, InputGroup, Button } from 'react-bootstrap';
@@ -15,6 +15,10 @@ const MessageForm = () => {
     const channelId = currentChannel.id;
     const [addMessage] = useAddMessageMutation();
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [inputRef]);
 
     const handleSubmit = async (values, { resetForm }) => {
         const { message } = values;
@@ -34,6 +38,13 @@ const MessageForm = () => {
         }
     };
 
+    const handleKeyDown = (event, handleSubmit) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            handleSubmit();
+        }
+    };
+
     return (
         <div className='mt-auto px-5 py-3'>
             <Formik
@@ -49,12 +60,13 @@ const MessageForm = () => {
                             name="message"
                             id='newMessage'
                             ref={inputRef}
-                            autoFocus={true}
+                            // autoFocus='autofocus'
                             placeholder={t('chat.typeMessage')}
                             aria-label={t('messages.newMessage')}
                             className='border-0 p-0 ps-2 form-control'
                             required
                             onChange={handleChange}
+                            onKeyDown={(e) => handleKeyDown(e, handleSubmit)}
                             value={values.message}
                             />
                             <Button
