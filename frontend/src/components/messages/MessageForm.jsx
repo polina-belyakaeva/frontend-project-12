@@ -18,7 +18,7 @@ const MessageForm = () => {
 
     useEffect(() => {
         inputRef.current?.focus();
-    }, []);
+    }, [channelId]);
 
     const handleSubmit = async (values, { resetForm }) => {
         const { message } = values;
