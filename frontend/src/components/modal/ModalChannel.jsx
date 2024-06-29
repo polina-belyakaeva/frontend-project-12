@@ -325,7 +325,6 @@ export const RenameChannel = ({
           </Modal.Body>
         </Modal>
       )}
-      ;
     </Formik>
   );
 };
