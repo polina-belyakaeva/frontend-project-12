@@ -1,25 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetMessagesQuery, messagesApi } from '../../api/messagesApi';
-import { socket } from '../../socket';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useGetMessagesQuery } from '../../api/messagesApi';
 
 const Messages = () => {
-  const dispatch = useDispatch();
   const { data = [] } = useGetMessagesQuery();
-
-  useEffect(() => {
-      const handleMessages = (newMessage) => {
-        dispatch(
-          messagesApi.util.updateQueryData('getMessages', undefined, (draftMessages) => {
-            draftMessages.push(newMessage)
-          }),
-        );
-      };
-      socket.connect();
-      socket.on('newMessage', handleMessages);
-
-      return () => socket.off('newMessage');
-  }, [dispatch]);
 
     const { currentChannel } = useSelector((state) => state.ui);
     const filteredMessages = data.filter((message) => message.channelId === currentChannel.id);
