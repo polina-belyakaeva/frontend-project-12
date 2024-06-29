@@ -6,7 +6,7 @@ const ru = {
     },
     loginPage: {
       login: 'Войти',
-      imgAlt: 'Тота на вершине горы',
+      imgAlt: 'Войти в аккаунт',
       nickname: 'Ваш ник',
       password: 'Пароль',
       footer: {
@@ -16,7 +16,7 @@ const ru = {
     },
     signupPage: {
       signupTitle: 'Регистрация',
-      imgAlt: 'Тота радуется на фоне фейерверков',
+      imgAlt: 'Зарегистрироваться в чате',
       username: 'Имя пользователя',
       password: 'Пароль',
       confirmPassword: 'Подтвердите пароль',
@@ -29,7 +29,6 @@ const ru = {
     },
     chat: {
       typeMessage: 'Введите сообщение...',
-      loading: 'Загружаем данные',
     },
     channels: {
       channels: 'Каналы',
