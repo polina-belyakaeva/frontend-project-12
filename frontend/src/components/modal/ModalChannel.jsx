@@ -130,22 +130,26 @@ export const RemoveChannel = ({
     addCurrentChannel,
     t,
 }) => {
-    const [removeChannel, { isLoading: isRemovingChannel }] = useRemoveChannelMutation();
+    const [removeChannel,  { isLoading: isRemovingChannel }] = useRemoveChannelMutation();
 
     const [removeMessage, { isLoading: isRemovingMessage }] = useRemoveMessageMutation();
 
     const handleRemoveChannel = async (modalChannelId) => {
        try {
         setType('');
-        addCurrentChannel(defaultChannel);
-        await removeChannel(modalChannelId);
-        await removeMessage(modalChannelId);
 
-        toast.success(t("notification.channelIsDeleted"));
-       } catch (error) {
-        toast.error(t("notification.networkErrorToast"));
-        console.log('Removing channel error: ', error);
+        const reponseChannel = await removeChannel(modalChannelId);
+        const reponseMessage = await removeMessage(modalChannelId);
+
+        if (reponseChannel.error?.status === 'FETCH_ERROR' || reponseMessage.error?.status === 'FETCH_ERROR') {
+            toast.error(t("notification.networkErrorToast"));
+        } else {
+            addCurrentChannel(defaultChannel);
+            toast.success(t("notification.channelIsDeleted"));
         }
+       } catch (error) {
+        console.log('Removing channel error: ', error);
+       }
     };
 
 
@@ -199,7 +203,7 @@ export const RenameChannel = ({
     setType,
     t,
 }) => {
-    const [editChannel] = useEditChannelMutation();
+    const [editChannel, { isLoading }] = useEditChannelMutation();
 
     const { data: channels = [] } = useGetChannelsQuery(undefined);
     const { modalChannelName } = useSelector((state) => state.ui);
@@ -221,13 +225,15 @@ export const RenameChannel = ({
             setType('');
             const cleanName = filter.clean(newChannelName);
             const body = { id: modalChannelId, name: cleanName };
-            await editChannel(body);
-
-            toast.success(t("notification.channelIsRenamed"));
-
-            formik.resetForm();
-            } catch (error) {
-            toast.error(t("notification.networkErrorToast"));
+            const response = await editChannel(body);
+            
+            if (response.error?.status === 'FETCH_ERROR') {
+                toast.error(t("notification.networkErrorToast"));
+            } else {
+                toast.success(t("notification.channelIsRenamed"));
+                formik.resetForm();
+            }
+        } catch (error) {
             console.log('Rename chanel error: ', error);
         }
     };
@@ -286,6 +292,7 @@ export const RenameChannel = ({
                                 variant="secondary"
                                 onClick={handleClose}
                                 aria-label={t('channels.modal.modalCancel')}
+                                disabled={isLoading}
                                 >
                                 {t('channels.modal.modalCancel')}
                             </Button>

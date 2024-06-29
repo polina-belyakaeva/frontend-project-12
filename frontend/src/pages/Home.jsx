@@ -4,12 +4,11 @@ import { ROUTES } from '../utils/routes.js';
 import { Container, Row } from 'react-bootstrap';
 import Channels from '../components/channels/Channels.jsx';
 import Chat from '../components/chat/Chat.jsx';
-import filter from 'leo-profanity';
 
 const Home = () => {
   const navigate = useNavigate();
-  filter.loadDictionary('ru');
-  filter.loadDictionary('en');
+  // filter.loadDictionary('ru');
+  // filter.loadDictionary('en');
 
   useEffect(() => {
     const token = localStorage.getItem("token");

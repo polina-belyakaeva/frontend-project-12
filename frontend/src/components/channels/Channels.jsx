@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Col, Nav, Navbar, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannel, setModalChannel, setModalType } from '../../slices/uiSlice.js';
-import { useGetChannelsQuery, channelsApi } from '../../api/channelsApi';
+import { useGetChannelsQuery } from '../../api/channelsApi';
 import NewModal from '../modal/index';
 import 'react-toastify/dist/ReactToastify.css';
-import { socket } from '../../socket';
 
 const Channels = () => {
     const { t } = useTranslation();
@@ -18,50 +17,6 @@ const Channels = () => {
 
     const { currentChannel } = useSelector((state) => state.ui);
     const { data: channels } = useGetChannelsQuery();
-
-    useEffect(() => {
-        const handleChannels = (newChannel) => {
-            dispatch(
-                channelsApi.util.updateQueryData(
-                  'getChannels',
-                  undefined,
-                  (draftChannels) => { draftChannels.push(newChannel); },
-                  
-                ),
-            );
-        };
-        const handleDeleteChannel = ({ id }) => {
-            dispatch(
-                channelsApi.util.updateQueryData(
-                  'getChannels',
-                  undefined,
-                  (draftChannels) => draftChannels.filter((channel) => channel.id !== id),
-                ),
-              );
-        }
-        const handleRenameChannel = ({ id, name }) => {
-            dispatch(
-                channelsApi.util.updateQueryData(
-                  'getChannels',
-                  undefined,
-                  (draftChannels) => {
-                    const channelIndex = draftChannels.findIndex((channel) => channel.id === id);
-                    draftChannels[channelIndex].name = name;
-                  }
-                ),
-              );
-        }
-        socket.connect();
-        socket.on('newChannel', handleChannels);
-        socket.on('removeChannel', handleDeleteChannel);
-        socket.on('renameChannel', handleRenameChannel);
-          
-        return () => {
-            socket.off('newChannel');
-            socket.off('removeChannel');
-            socket.off('renameChannel');
-        }
-    }, [dispatch]);
     
     const handleCurrentChat = (channel) => {
         addCurrentChat(channel);

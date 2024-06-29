@@ -58,19 +58,13 @@ const MessageForm = () => {
                             className='border-0 p-0 ps-2 form-control'
                             required
                             onChange={handleChange}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    handleSubmit();
-                                }
-                            }}
                             value={values.message}
                             />
                             <Button
                             type="submit"
                             variant="outline"
                             className='btn btn-group-vertical'
-                            disabled={!values.message || isSubmitting}
+                            disabled={!values.message.trim() || isSubmitting}
                             aria-label={t("messages.sendMessage")}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
