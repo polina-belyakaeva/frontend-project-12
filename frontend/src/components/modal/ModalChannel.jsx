@@ -270,7 +270,7 @@ export const RenameChannel = ({
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-2">
-                        <Form.Label className="visually-hidden" htmlFor="newMessage">{t('channels.modal.channelManagment')}</Form.Label>
+                        <Form.Label className="visually-hidden" htmlFor="newMessage">{t('channels.modal.channelName')}</Form.Label>
                         <Form.Control
                             type="text"
                             name='newChannelName'
