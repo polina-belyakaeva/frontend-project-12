@@ -20,7 +20,7 @@ const MessageForm = () => {
     inputRef.current?.focus();
   }, [channelId]);
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleFormSubmit = async (values, { resetForm }) => {
     const { message } = values;
     const cleanMessage = filter.clean(message);
     const newMessage = { body: cleanMessage, channelId, username };
@@ -42,7 +42,7 @@ const MessageForm = () => {
     <div className="mt-auto px-5 py-3">
       <Formik
         initialValues={{ message: '', channelId, username }}
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         {({
           handleSubmit, handleChange, values, isSubmitting,

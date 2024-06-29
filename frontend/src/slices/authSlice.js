@@ -8,6 +8,7 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
+  /* eslint-disable no-param-reassign */
   reducers: {
     setToken(state, action) {
       state.token = action.payload;

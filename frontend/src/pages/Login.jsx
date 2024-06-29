@@ -29,13 +29,12 @@ const Login = () => {
 
   const { t } = useTranslation();
 
-  const handleSubmit = async (
+  const handleFormSubmit = async (
     { username, password },
     { setSubmitting, setErrors, setFieldTouched },
   ) => {
     try {
       const response = await loginUser({ username, password });
-
       if (response.error?.status === 401) {
         console.log('401');
         setErrors({
@@ -48,7 +47,7 @@ const Login = () => {
         inputRef.current?.select();
       } else if (response.data?.token) {
         const { token } = response.data;
-        const { username } = response.data;
+        console.log(username, 'username token');
 
         localStorage.setItem('username', username);
         localStorage.setItem('token', token);
@@ -88,7 +87,7 @@ const Login = () => {
               </Col>
               <Formik
                 initialValues={{ username: '', password: '' }}
-                onSubmit={handleSubmit}
+                onSubmit={handleFormSubmit}
               >
                 {({
                   handleSubmit,

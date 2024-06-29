@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import {
@@ -32,108 +32,86 @@ export const AddNewChannel = ({
 
   const { data: channels = [] } = useGetChannelsQuery(undefined);
   const channelNames = channels?.map(({ name }) => name);
-
-  const formik = useFormik({
-    initialValues: {
-      newChannelName: '',
-    },
-    validationSchema: getValidationSchema(channelNames, t),
-    onSubmit: ({ newChannelName }) => {
-      createNewChannel(newChannelName);
-    },
-  });
-
-  const createNewChannel = async (newChannelName) => {
-    try {
-      setType('');
-      const cleanName = filter.clean(newChannelName);
-      const body = { name: cleanName };
-      const {
-        data: { id, name },
-      } = await addChannel(body);
-
-      toast.success(t('notification.channelIsCreated'));
-
-      formik.resetForm();
-      addCurrentChannel({ id, name });
-    } catch (error) {
-      toast.error(t('notification.networkErrorToast'));
-      console.log('Adding channel error: ', error);
-    }
-  };
-
-  const handleClose = () => {
-    setType('');
-    formik.resetForm();
-  };
+  const validationSchema = getValidationSchema(channelNames, t);
 
   return (
-    <Modal
-      centered
-      id="channelModal"
-      tabIndex="-1"
-      aria-labelledby="channel-modal"
-      show={modalType === 'addChannel'}
-      onHide={handleClose}
+    <Formik
+      initialValues={{ newChannelName: '' }}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { resetForm }) => {
+        try {
+          const cleanName = filter.clean(values.newChannelName);
+          const { data: { id, name } } = await addChannel({ name: cleanName });
+          toast.success(t('notification.channelIsCreated'));
+          addCurrentChannel({ id, name });
+          resetForm();
+          setType('');
+        } catch (error) {
+          toast.error(t('notification.networkErrorToast'));
+          console.error('Adding channel error: ', error);
+        }
+      }}
     >
-      <Modal.Header>
-        <Modal.Title>{t('channels.modal.modalAddChannel')}</Modal.Title>
-        <Button
-          type="button"
-          variant="close"
-          onClick={handleClose}
-          data-bs-dismiss="modal"
-          aria-label={t('channels.modal.modalClose')}
-        />
-      </Modal.Header>
-      <Modal.Body className="mb-0 pb-0">
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-2">
-            <Form.Label className="visually-hidden" htmlFor="channelName">
-              {t('channels.modal.channelName')}
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="newChannelName"
-              id="channelName"
-              aria-label={t('channels.modal.channelName')}
-              placeholder=""
-              autoFocus
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={
-                (formik.errors.newChannelName
-                  && formik.touched.newChannelName)
-                || !!formik.status
-              }
-              value={formik.values.newChannelName}
-              disabled={formik.isSubmitting}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.newChannelName}
-            </Form.Control.Feedback>
-            <Modal.Footer className="border-0 d-flex justify-content-end">
+      {({
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+        resetForm,
+      }) => (
+        <Modal
+          centered
+          show={modalType === 'addChannel'}
+          onHide={() => {
+            resetForm();
+            setType('');
+          }}
+          aria-labelledby="channel-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{t('channels.modal.modalAddChannel')}</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleSubmit}>
+            <Modal.Body>
+              <Form.Group className="mb-2">
+                <Form.Label htmlFor="channelName" className="visually-hidden">{t('channels.modal.channelName')}</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="newChannelName"
+                  id="channelName"
+                  value={values.newChannelName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={touched.newChannelName && errors.newChannelName}
+                  required
+                  autoFocus
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.newChannelName}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
               <Button
-                className="me-2"
                 variant="secondary"
-                onClick={handleClose}
-                aria-label={t('channels.modal.modalCancel')}
+                onClick={() => {
+                  resetForm();
+                  setType('');
+                }}
               >
                 {t('channels.modal.modalCancel')}
               </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={formik.isSubmitting}
-                aria-label={t('channels.modal.modalSend')}
-              >
+              <Button type="submit" variant="primary" disabled={isSubmitting}>
                 {t('channels.modal.modalSend')}
               </Button>
             </Modal.Footer>
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-    </Modal>
+          </Form>
+        </Modal>
+      )}
+    </Formik>
   );
 };
 
@@ -221,44 +199,7 @@ export const RemoveChannel = ({
 export const RenameChannel = ({
   modalType, modalChannelId, setType, t,
 }) => {
-  const [editChannel, { isLoading }] = useEditChannelMutation();
-
-  const { data: channels = [] } = useGetChannelsQuery(undefined);
-  const { modalChannelName } = useSelector((state) => state.ui);
-  const channelNames = channels
-    .filter(({ name }) => name !== modalChannelName)
-    .map(({ name }) => name);
-
   const inputRef = useRef(null);
-
-  const formik = useFormik({
-    initialValues: {
-      newChannelName: modalChannelName,
-    },
-    validationSchema: getValidationSchema(channelNames, t),
-    onSubmit: ({ newChannelName }) => {
-      renameChannel(newChannelName);
-    },
-  });
-
-  const renameChannel = async (newChannelName) => {
-    try {
-      setType('');
-      const cleanName = filter.clean(newChannelName);
-      const body = { id: modalChannelId, name: cleanName };
-      const response = await editChannel(body);
-
-      if (response.error?.status === 'FETCH_ERROR') {
-        toast.error(t('notification.networkErrorToast'));
-      } else {
-        toast.success(t('notification.channelIsRenamed'));
-        formik.resetForm();
-      }
-    } catch (error) {
-      console.log('Rename chanel error: ', error);
-    }
-  };
-
   useEffect(() => {
     if (modalType === 'editChannel') {
       inputRef.current?.focus();
@@ -266,77 +207,125 @@ export const RenameChannel = ({
     }
   }, [modalType]);
 
-  const handleClose = () => {
-    setType('');
-    formik.resetForm();
-  };
+  const [editChannel, { isLoading }] = useEditChannelMutation();
+
+  const { data: channels = [] } = useGetChannelsQuery(undefined);
+  const { modalChannelName } = useSelector((state) => state.ui);
+  const channelNames = channels
+    .filter(({ name }) => name !== modalChannelName)
+    .map(({ name }) => name);
+  const validationSchema = getValidationSchema(channelNames, t);
 
   return (
-    <Modal
-      centered
-      id="channelModal"
-      tabIndex="-1"
-      aria-labelledby="channel-modal"
-      show={modalType === 'editChannel'}
-      onHide={handleClose}
+    <Formik
+      initialValues={{ newChannelName: '' }}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { resetForm }) => {
+        try {
+          setType('');
+          const cleanName = filter.clean(values.newChannelName);
+          const body = { id: modalChannelId, name: cleanName };
+          const response = await editChannel(body);
+
+          if (response.error?.status === 'FETCH_ERROR') {
+            toast.error(t('notification.networkErrorToast'));
+          } else {
+            toast.success(t('notification.channelIsRenamed'));
+            resetForm();
+          }
+        } catch (error) {
+          console.log('Rename chanel error: ', error);
+        }
+      }}
     >
-      <Modal.Header>
-        <Modal.Title>{t('channels.modal.editChannel')}</Modal.Title>
-        <Button
-          type="button"
-          variant="close"
-          onClick={handleClose}
-          data-bs-dismiss="modal"
-          aria-label={t('channels.modal.modalClose')}
-        />
-      </Modal.Header>
-      <Modal.Body className="mb-0 pb-0">
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-2">
-            <Form.Label className="visually-hidden" htmlFor="newName">
-              {t('channels.modal.channelName')}
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="newChannelName"
-              id="newName"
-              aria-label={t('channels.modal.channelName')}
-              ref={inputRef}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={
-                (formik.errors.newChannelName
-                  && formik.touched.newChannelName)
-                || !!formik.status
-              }
-              value={formik.values.newChannelName}
-              disabled={formik.isSubmitting}
+      {({
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+        resetForm,
+        status,
+      }) => (
+        <Modal
+          centered
+          id="channelModal"
+          tabIndex="-1"
+          aria-labelledby="channel-modal"
+          show={modalType === 'editChannel'}
+          onHide={() => {
+            setType('');
+            resetForm();
+          }}
+        >
+          <Modal.Header>
+            <Modal.Title>{t('channels.modal.editChannel')}</Modal.Title>
+            <Button
+              type="button"
+              variant="close"
+              onClick={() => {
+                setType('');
+                resetForm();
+              }}
+              data-bs-dismiss="modal"
+              aria-label={t('channels.modal.modalClose')}
             />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.newChannelName}
-            </Form.Control.Feedback>
-            <Modal.Footer className="border-0 d-flex justify-content-end">
-              <Button
-                className="me-2"
-                variant="secondary"
-                onClick={handleClose}
-                aria-label={t('channels.modal.modalCancel')}
-                disabled={isLoading}
-              >
-                {t('channels.modal.modalCancel')}
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={formik.isSubmitting}
-                aria-label={t('channels.modal.modalSend')}
-              >
-                {t('channels.modal.modalSend')}
-              </Button>
-            </Modal.Footer>
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-    </Modal>
+          </Modal.Header>
+          <Modal.Body className="mb-0 pb-0">
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-2">
+                <Form.Label className="visually-hidden" htmlFor="newName">
+                  {t('channels.modal.channelName')}
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="newChannelName"
+                  id="newName"
+                  aria-label={t('channels.modal.channelName')}
+                  ref={inputRef}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={
+                    (errors.newChannelName
+                      && touched.newChannelName)
+                    || !!status
+                  }
+                  value={values.newChannelName}
+                  disabled={isSubmitting}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.newChannelName}
+                </Form.Control.Feedback>
+                <Modal.Footer className="border-0 d-flex justify-content-end">
+                  <Button
+                    className="me-2"
+                    variant="secondary"
+                    onClick={() => {
+                      setType('');
+                      resetForm();
+                    }}
+                    aria-label={t('channels.modal.modalCancel')}
+                    disabled={isLoading}
+                  >
+                    {t('channels.modal.modalCancel')}
+                  </Button>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    disabled={isSubmitting}
+                    aria-label={t('channels.modal.modalSend')}
+                  >
+                    {t('channels.modal.modalSend')}
+                  </Button>
+                </Modal.Footer>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      )}
+      ;
+    </Formik>
   );
 };

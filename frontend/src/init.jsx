@@ -72,6 +72,7 @@ const Init = async (socket) => {
     );
   };
 
+  /* eslint-disable react/destructuring-assignment */
   socket.connect();
   socket.on('newMessage', handleMessages);
   socket.on('newChannel', handleChannels);

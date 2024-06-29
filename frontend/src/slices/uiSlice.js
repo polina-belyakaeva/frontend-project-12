@@ -13,6 +13,7 @@ const initialState = {
 const uiSlice = createSlice({
   name: 'ui',
   initialState,
+  /* eslint-disable no-param-reassign */
   reducers: {
     setChannels(state, action) {
       state.channelsList = action.payload;
@@ -33,7 +34,11 @@ const uiSlice = createSlice({
   },
 });
 
+// prettier-ignore
 export const {
-  setChannels, setCurrentChannel, setModalChannel, setModalType,
+  setChannels,
+  setCurrentChannel,
+  setModalChannel,
+  setModalType,
 } = uiSlice.actions;
 export default uiSlice.reducer;

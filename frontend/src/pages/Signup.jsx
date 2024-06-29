@@ -45,7 +45,7 @@ const Signup = () => {
       .required(t('form.errors.required')),
   });
 
-  const handleSubmit = async (
+  const handleFormSubmit = async (
     { username, password },
     { setSubmitting, setErrors, setFieldTouched },
   ) => {
@@ -56,7 +56,6 @@ const Signup = () => {
         setFieldTouched('username', true, false);
       } else if (response.data?.token) {
         const { token } = response.data;
-        const { username } = response.data;
 
         localStorage.setItem('username', username);
         localStorage.setItem('token', token);
@@ -97,7 +96,7 @@ const Signup = () => {
                   password: '',
                   passwordConfirm: '',
                 }}
-                onSubmit={handleSubmit}
+                onSubmit={handleFormSubmit}
                 validationSchema={signupSchema}
               >
                 {({

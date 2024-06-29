@@ -7,8 +7,6 @@ import Chat from '../components/chat/Chat.jsx';
 
 const Home = () => {
   const navigate = useNavigate();
-  // filter.loadDictionary('ru');
-  // filter.loadDictionary('en');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
