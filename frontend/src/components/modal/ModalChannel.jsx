@@ -84,7 +84,7 @@ export const AddNewChannel = ({
                     <Form.Label className="visually-hidden" htmlFor="channelName">{t("channels.modal.channelName")}</Form.Label>
                         <Form.Control
                             type="text"
-                            name='newName'
+                            name='newChannelName'
                             id='channelName'
                             aria-label={t("channels.modal.channelName")}
                             placeholder=""
