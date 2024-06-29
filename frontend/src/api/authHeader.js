@@ -1,7 +1,7 @@
 const authHeader = (headers, { getState }) => {
-  const token = getState().auth.token;
+  const { token } = getState().auth;
   if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
+    headers.set('Authorization', `Bearer ${token}`);
   }
 
   return headers;

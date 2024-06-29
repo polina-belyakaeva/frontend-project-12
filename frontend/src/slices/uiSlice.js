@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-export const defaultChannel = { id: "1", name: "general", removable: false };
+export const defaultChannel = { id: '1', name: 'general', removable: false };
 
 const initialState = {
   channelsList: [],
   currentChannel: defaultChannel,
-  modalChannelId: "",
-  modalChannelName: "",
-  modalType: "",
+  modalChannelId: '',
+  modalChannelName: '',
+  modalType: '',
 };
 
 const uiSlice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState,
   reducers: {
     setChannels(state, action) {
@@ -33,5 +33,7 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setChannels, setCurrentChannel, setModalChannel, setModalType } = uiSlice.actions;
+export const {
+  setChannels, setCurrentChannel, setModalChannel, setModalType,
+} = uiSlice.actions;
 export default uiSlice.reducer;

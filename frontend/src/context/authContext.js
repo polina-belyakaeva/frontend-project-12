@@ -1,8 +1,11 @@
-import React, { createContext, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentChannel } from "../slices/uiSlice";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../utils/routes";
+// prettier-ignore
+import React, {
+  createContext, useState, useMemo, useCallback,
+} from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setCurrentChannel } from '../slices/uiSlice';
+import { ROUTES } from '../utils/routes';
 
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -10,24 +13,26 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const login = () => {
+  const login = useCallback(() => {
     setIsAuthenticated(true);
     navigate(ROUTES.home);
-  };
-  const logout = () => {
+  }, [navigate]);
+
+  const logout = useCallback(() => {
     setIsAuthenticated(false);
-    dispatch(setCurrentChannel({ id: "1", name: "general", removable: false }));
+    dispatch(setCurrentChannel({ id: '1', name: 'general', removable: false }));
     navigate(ROUTES.login);
-  };
-  return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  }, [dispatch, navigate]);
+
+  // prettier-ignore
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      login,
+      logout,
+    }),
+    [isAuthenticated, login, logout],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

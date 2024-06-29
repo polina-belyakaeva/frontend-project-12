@@ -1,37 +1,42 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { API_ROUTES } from "../utils/routes";
-import authHeader from "./authHeader";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_ROUTES } from '../utils/routes';
+import authHeader from './authHeader';
 
 export const messagesApi = createApi({
-  reducerPath: "messages",
+  reducerPath: 'messages',
   baseQuery: fetchBaseQuery({
     baseUrl: API_ROUTES.messages(),
     prepareHeaders: authHeader,
   }),
-  tagTypes: ["Messages"],
+  tagTypes: ['Messages'],
   endpoints: (builder) => ({
     getMessages: builder.query({
-      query: () => "",
+      query: () => '',
     }),
     addMessage: builder.mutation({
       query: (message) => ({
-        method: "POST",
+        method: 'POST',
         body: message,
       }),
     }),
     editMessage: builder.mutation({
       query: (editedMessage) => ({
-        method: "PATCH",
+        method: 'PATCH',
         body: editedMessage,
       }),
     }),
     removeMessage: builder.mutation({
       query: (id) => ({
         url: id,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
   }),
 });
 
-export const { useGetMessagesQuery, useAddMessageMutation, useEditMessageMutation, useRemoveMessageMutation } = messagesApi;
+export const {
+  useGetMessagesQuery,
+  useAddMessageMutation,
+  useEditMessageMutation,
+  useRemoveMessageMutation,
+} = messagesApi;
