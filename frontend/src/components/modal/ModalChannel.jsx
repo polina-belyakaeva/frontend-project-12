@@ -226,7 +226,7 @@ export const RenameChannel = ({
             const cleanName = filter.clean(newChannelName);
             const body = { id: modalChannelId, name: cleanName };
             const response = await editChannel(body);
-            
+
             if (response.error?.status === 'FETCH_ERROR') {
                 toast.error(t("notification.networkErrorToast"));
             } else {
@@ -275,7 +275,7 @@ export const RenameChannel = ({
                             type="text"
                             name='newChannelName'
                             id='newMessage'
-                            aria-label={t('channels.modal.channelManagment')}
+                            aria-label={t('channels.modal.channelName')}
                             ref={inputRef}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
