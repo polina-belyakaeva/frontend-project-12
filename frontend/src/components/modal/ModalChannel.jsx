@@ -84,7 +84,7 @@ export const AddNewChannel = ({
                     <Form.Label className="visually-hidden" htmlFor="channelName">{t("channels.modal.channelName")}</Form.Label>
                         <Form.Control
                             type="text"
-                            name='newChannelName'
+                            name='newName'
                             id='channelName'
                             aria-label={t("channels.modal.channelName")}
                             placeholder=""
@@ -270,11 +270,11 @@ export const RenameChannel = ({
             <Modal.Body className="mb-0 pb-0">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-2">
-                        <Form.Label className="visually-hidden" htmlFor="newMessage">{t('channels.modal.channelName')}</Form.Label>
+                        <Form.Label className="visually-hidden" htmlFor="newName">{t('channels.modal.channelName')}</Form.Label>
                         <Form.Control
                             type="text"
                             name='newChannelName'
-                            id='newMessage'
+                            id='newName'
                             aria-label={t('channels.modal.channelName')}
                             ref={inputRef}
                             onChange={formik.handleChange}
