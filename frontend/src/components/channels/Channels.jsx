@@ -54,7 +54,7 @@ const Channels = () => {
                         {channel.removable ? (
                             <Dropdown as={ButtonGroup} className='w-100 d-flex'>
                                 <Button
-                                    className={`w-100 rounded-0 text-start text-truncate ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}
+                                    className='w-100 rounded-0 text-start text-truncate' variant={`${currentChannel.id === channel.id ? 'secondary' : 'btn-light'}`}
                                     onClick={() => handleCurrentChat(channel)}
                                     type="button"
                                     role="button"
@@ -63,7 +63,7 @@ const Channels = () => {
                                     <span># </span>
                                     {channel.name}
                                 </Button>
-                                <Dropdown.Toggle split className={`flex-grow-0 ${currentChannel.id === channel.id ? 'btn-secondary' : 'btn-light'}`}>
+                                <Dropdown.Toggle split className='flex-grow-0' variant={`${currentChannel.id === channel.id ? 'secondary' : 'btn-light'}`}>
                                     <span className="visually-hidden">{t('channels.modal.channelManagment')}</span>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
