@@ -12,12 +12,13 @@ const NotFound = () => {
       fluid
       className="h-100 d-flex justify-content-center align-items-center"
     >
-      <Card className="shadow-sm w-75">
+      <Card className="shadow-sm w-75" style={{ maxWidth: '600px' }}>
         <Card.Body className="d-flex flex-column align-items-center p-5">
           <Image
             src={notFound}
-            alt={t('notFoundPage.redirectToSignup')}
+            alt={t('notFoundPage.notFoundAlt')}
             className="img-fluid mb-4"
+            style={{ maxHeight: '300px', width: 'auto' }}
           />
           <Card.Text className="h4 text-muted text-center mb-3">
             {t('notFoundPage.notFound')}

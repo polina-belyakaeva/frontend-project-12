@@ -64,10 +64,10 @@ const Signup = () => {
 
         navigate(ROUTES.home);
       } else {
-        console.log('Signup error');
+        console.error('Signup error');
       }
     } catch (error) {
-      console.log('Error in catch:', error);
+      console.error('Error in catch:', error);
     } finally {
       setSubmitting(false);
     }

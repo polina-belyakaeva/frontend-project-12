@@ -123,27 +123,26 @@ export const RemoveChannel = ({
   t,
 }) => {
   const [removeChannel, { isLoading: isRemovingChannel }] = useRemoveChannelMutation();
-
   const [removeMessage, { isLoading: isRemovingMessage }] = useRemoveMessageMutation();
-
+  const currentChannel = useSelector((state) => state.ui.currentChannel);
   const handleRemoveChannel = async (id) => {
     try {
       setType('');
-
       const reponseChannel = await removeChannel(id);
       const reponseMessage = await removeMessage(id);
-
       if (
         reponseChannel.error?.status === 'FETCH_ERROR'
         || reponseMessage.error?.status === 'FETCH_ERROR'
       ) {
         toast.error(t('notification.networkErrorToast'));
       } else {
-        addCurrentChannel(defaultChannel);
+        if (currentChannel.id === id) {
+          addCurrentChannel(defaultChannel);
+        }
         toast.success(t('notification.channelIsDeleted'));
       }
     } catch (error) {
-      console.log('Removing channel error: ', error);
+      console.error('Removing channel error: ', error);
     }
   };
 
@@ -197,7 +196,10 @@ export const RemoveChannel = ({
 };
 
 export const RenameChannel = ({
-  modalType, modalChannelId, setType, t,
+  modalType,
+  modalChannelId,
+  setType,
+  t,
 }) => {
   const inputRef = useRef(null);
   useEffect(() => {
@@ -218,7 +220,7 @@ export const RenameChannel = ({
 
   return (
     <Formik
-      initialValues={{ newChannelName: '' }}
+      initialValues={{ newChannelName: modalChannelName }}
       validationSchema={validationSchema}
       onSubmit={async (values, { resetForm }) => {
         try {
@@ -234,7 +236,7 @@ export const RenameChannel = ({
             resetForm();
           }
         } catch (error) {
-          console.log('Rename chanel error: ', error);
+          console.error('Rename chanel error: ', error);
         }
       }}
     >

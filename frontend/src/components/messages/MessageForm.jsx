@@ -1,15 +1,16 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
+import FilterContext from '../../context/filterContext';
 import { useAddMessageMutation } from '../../api/messagesApi';
 import 'react-toastify/dist/ReactToastify.css';
 
 const MessageForm = () => {
   const { t } = useTranslation();
+  const filter = useContext(FilterContext);
   const { username } = useSelector((state) => state.auth);
   const { currentChannel } = useSelector((state) => state.ui);
   const channelId = currentChannel.id;
@@ -34,7 +35,7 @@ const MessageForm = () => {
       }
     } catch (error) {
       toast.error(t('notification.networkErrorToast'));
-      console.log('Sending message error: ', error);
+      console.error('Sending message error: ', error);
     }
   };
 
@@ -45,7 +46,10 @@ const MessageForm = () => {
         onSubmit={handleFormSubmit}
       >
         {({
-          handleSubmit, handleChange, values, isSubmitting,
+          handleSubmit,
+          handleChange,
+          values,
+          isSubmitting,
         }) => (
           <Form
             noValidate

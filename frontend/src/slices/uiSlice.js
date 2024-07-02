@@ -40,5 +40,6 @@ export const {
   setCurrentChannel,
   setModalChannel,
   setModalType,
+  setFocus,
 } = uiSlice.actions;
 export default uiSlice.reducer;

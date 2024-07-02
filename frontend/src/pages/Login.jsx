@@ -36,7 +36,6 @@ const Login = () => {
     try {
       const response = await loginUser({ username, password });
       if (response.error?.status === 401) {
-        console.log('401');
         setErrors({
           username: t('form.errors.wrongNicknameorPassword'),
           password: t('form.errors.wrongNicknameorPassword'),
@@ -47,7 +46,6 @@ const Login = () => {
         inputRef.current?.select();
       } else if (response.data?.token) {
         const { token } = response.data;
-        console.log(username, 'username token');
 
         localStorage.setItem('username', username);
         localStorage.setItem('token', token);
@@ -57,12 +55,11 @@ const Login = () => {
         setErrors('');
       }
     } catch (error) {
-      console.log(error, 'error auth');
       if (!error.isAxiosError) {
-        console.log(t('form.errors.unknown'));
+        console.error(t('form.errors.unknown'));
         return;
       }
-      console.log(t('form.errors.network'));
+      console.error(t('form.errors.network'));
     } finally {
       setSubmitting(false);
     }

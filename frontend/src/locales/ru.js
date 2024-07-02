@@ -23,6 +23,7 @@ const ru = {
       signup: 'Зарегистрироваться',
     },
     notFoundPage: {
+      notFoundAlt: 'Ошибка 404: страница не найдена',
       notFound: 'Страница не найдена',
       redirectToSignup: 'Но вы можете перейти на',
       mainPage: 'главную страницу',

@@ -1,19 +1,21 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
-import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
+import i18next, { initI18n } from './init18n';
 import App from './App';
 import store from './slices/store/index.js';
 import { messagesApi } from './api/messagesApi';
 import { channelsApi } from './api/channelsApi';
-import './init18n.jsx';
-import { AuthProvider } from './context/authContext.js';
+import socket from './socket';
+import FilterContext from './context/filterContext';
+import { AuthProvider } from './context/authContext';
 
-const Init = async (socket) => {
+const Init = async () => {
   const rollbarConfig = {
     accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
     captureUncaught: true,
@@ -21,6 +23,7 @@ const Init = async (socket) => {
     environment: process.env.ROLLBAR_ENVIRONMENT,
   };
 
+  await initI18n();
   filter.loadDictionary('ru');
   filter.loadDictionary('en');
 
@@ -72,7 +75,6 @@ const Init = async (socket) => {
     );
   };
 
-  /* eslint-disable react/destructuring-assignment */
   socket.connect();
   socket.on('newMessage', handleMessages);
   socket.on('newChannel', handleChannels);
@@ -81,17 +83,19 @@ const Init = async (socket) => {
 
   return (
     <BrowserRouter>
-      <RollbarProvider config={rollbarConfig}>
-        <ErrorBoundary>
-          <Provider store={store}>
-            <I18nextProvider i18n={i18next}>
-              <AuthProvider>
-                <App />
-              </AuthProvider>
-            </I18nextProvider>
-          </Provider>
-        </ErrorBoundary>
-      </RollbarProvider>
+      <FilterContext.Provider value={filter}>
+        <RollbarProvider config={rollbarConfig}>
+          <ErrorBoundary>
+            <Provider store={store}>
+              <I18nextProvider i18n={i18next}>
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
+              </I18nextProvider>
+            </Provider>
+          </ErrorBoundary>
+        </RollbarProvider>
+      </FilterContext.Provider>
     </BrowserRouter>
   );
 };
