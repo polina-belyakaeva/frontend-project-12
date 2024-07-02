@@ -1,9 +1,7 @@
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/polina-belyakaeva/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/polina-belyakaeva/frontend-project-12/actions)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/23f613cff0358f17d444/maintainability)](https://codeclimate.com/github/polina-belyakaeva/frontend-project-12/maintainability)
-
 [![Linter check](https://github.com/polina-belyakaeva/frontend-project-12/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/polina-belyakaeva/frontend-project-12/actions/workflows/main.yml)
 
 # Hexlet-chat

@@ -1,4 +1,4 @@
-name: CI
+name: Linter check
 
 on:
   - push
@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install
         run: make install
