@@ -16,7 +16,8 @@ const initI18n = async () => {
   } catch (error) {
     console.error('Ошибка при инициализации i18next:', error);
   }
+
+  return i18nextInstance;
 };
 
-export default i18nextInstance;
-export { initI18n };
+export default initI18n;

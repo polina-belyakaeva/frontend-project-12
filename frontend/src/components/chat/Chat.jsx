@@ -6,7 +6,7 @@ import MessageForm from '../messages/MessageForm.jsx';
 
 const Chat = () => (
   <Col className="p-0 h-100">
-    <div className="d-flex flex-column h-100">
+    <div className="d-flex flex-column h-100 border-end">
       <ChatHeader />
       <Messages />
       <MessageForm />

@@ -6,14 +6,16 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
-import i18next, { initI18n } from './init18n';
+import i18nInit from './init18n';
 import App from './App';
-import store from './slices/store/index.js';
 import { messagesApi } from './api/messagesApi';
 import { channelsApi } from './api/channelsApi';
 import socket from './socket';
 import FilterContext from './context/filterContext';
+import SocketContext from './context/socketContext';
 import { AuthProvider } from './context/authContext';
+import store from './slices/store/index.js';
+import { defaultChannel, setCurrentChannel } from './slices/uiSlice';
 
 const Init = async () => {
   const rollbarConfig = {
@@ -23,7 +25,7 @@ const Init = async () => {
     environment: process.env.ROLLBAR_ENVIRONMENT,
   };
 
-  await initI18n();
+  const i18next = await i18nInit();
   filter.loadDictionary('ru');
   filter.loadDictionary('en');
 
@@ -58,6 +60,17 @@ const Init = async () => {
         (draftChannels) => draftChannels.filter((channel) => channel.id !== id),
       ),
     );
+    store.dispatch(
+      messagesApi.util.updateQueryData(
+        'getMessages',
+        undefined,
+        (draftMessages) => draftMessages.filter((message) => message.channelId !== id),
+      ),
+    );
+    const { currentChannel } = store.getState().ui;
+    if (currentChannel.id === id) {
+      store.dispatch(setCurrentChannel(defaultChannel));
+    }
   };
   const handleRenameChannel = ({ id, name }) => {
     store.dispatch(
@@ -83,19 +96,21 @@ const Init = async () => {
 
   return (
     <BrowserRouter>
-      <FilterContext.Provider value={filter}>
-        <RollbarProvider config={rollbarConfig}>
-          <ErrorBoundary>
-            <Provider store={store}>
-              <I18nextProvider i18n={i18next}>
-                <AuthProvider>
-                  <App />
-                </AuthProvider>
-              </I18nextProvider>
-            </Provider>
-          </ErrorBoundary>
-        </RollbarProvider>
-      </FilterContext.Provider>
+      <SocketContext.Provider value={socket}>
+        <FilterContext.Provider value={filter}>
+          <RollbarProvider config={rollbarConfig}>
+            <ErrorBoundary>
+              <Provider store={store}>
+                <I18nextProvider i18n={i18next}>
+                  <AuthProvider>
+                    <App />
+                  </AuthProvider>
+                </I18nextProvider>
+              </Provider>
+            </ErrorBoundary>
+          </RollbarProvider>
+        </FilterContext.Provider>
+      </SocketContext.Provider>
     </BrowserRouter>
   );
 };

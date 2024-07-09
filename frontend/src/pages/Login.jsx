@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/authContext.js';
 import { useLoginUserMutation } from '../api/userApi';
 import { setToken, setUsername } from '../slices/authSlice.js';
+import { ROUTES } from '../utils/routes';
 import loginAvatar from '../assets/loginAvatar.jpeg';
 
 const Login = () => {
@@ -155,7 +156,7 @@ const Login = () => {
               <Card.Text className="d-flex justify-content-center align-content-center">
                 {t('loginPage.footer.isAccountExist')}
 &nbsp;
-                <Link to="/signup">{t('loginPage.footer.signup')}</Link>
+                <Link to={ROUTES.signup}>{t('loginPage.footer.signup')}</Link>
               </Card.Text>
             </Card.Footer>
           </Card>

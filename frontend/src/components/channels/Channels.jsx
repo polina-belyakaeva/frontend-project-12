@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   ButtonGroup,
   Col,
   Nav,
-  Navbar,
   Dropdown,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {
   setCurrentChannel,
+  setScrollType,
+} from '../../slices/uiSlice';
+import {
   setModalChannel,
   setModalType,
-} from '../../slices/uiSlice.js';
+  setModalActive,
+} from '../../slices/modalSlice';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import NewModal from '../modal/index';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,25 +28,46 @@ const Channels = () => {
   const addCurrentChat = (channel) => dispatch(setCurrentChannel(channel));
   const setChannelModal = (channel) => dispatch(setModalChannel(channel));
   const setType = (type) => dispatch(setModalType(type));
+  const setActiveModal = (isActive) => dispatch(setModalActive(isActive));
+  const setScroll = useCallback((type) => dispatch(setScrollType(type)), [dispatch]);
 
-  const { currentChannel } = useSelector((state) => state.ui);
+  const { currentChannel, scrollType } = useSelector((state) => state.ui);
   const { data: channels } = useGetChannelsQuery();
   const handleCurrentChat = (channel) => {
     addCurrentChat(channel);
   };
 
-  const { modalType } = useSelector((state) => state.ui);
+  const scrollTopRef = useRef(null);
+  const scrollBottomRef = useRef(null);
+
+  useEffect(() => {
+    setScroll({ type: '' });
+    if (scrollType === 'bottom') {
+      setTimeout(() => {
+        scrollBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else if (scrollType === 'top') {
+      scrollTopRef.current?.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [scrollType, scrollBottomRef, scrollTopRef, setScroll]);
+
+  const { modalType } = useSelector((state) => state.modal);
   const setModalClick = (channel, type) => {
     const { id, name } = channel;
     const newModal = { id, name };
     const payload = { type };
     setChannelModal(newModal);
     setType(payload);
+    setActiveModal({ isActive: true });
   };
 
   const addModalType = (type) => {
     const payload = { type };
     setType(payload);
+    setActiveModal({ isActive: true });
   };
 
   return (
@@ -71,14 +95,18 @@ const Channels = () => {
           <span className="visually-hidden">{t('channels.addChannel')}</span>
         </Button>
       </div>
-      <Navbar
+      <Nav
         id="channels-box"
         className="flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
+        ref={scrollTopRef}
       >
         {channels?.map((channel) => (
           <Nav.Item key={channel.id} className="w-100">
             {channel.removable ? (
-              <Dropdown as={ButtonGroup} className="w-100 d-flex">
+              <Dropdown
+                as={ButtonGroup}
+                className="w-100 d-flex"
+              >
                 <Button
                   className="w-100 rounded-0 text-start text-truncate"
                   variant={`${
@@ -134,8 +162,11 @@ const Channels = () => {
             )}
           </Nav.Item>
         ))}
-      </Navbar>
-      <NewModal type={modalType} />
+        <div ref={scrollBottomRef} />
+      </Nav>
+      <NewModal
+        type={modalType}
+      />
     </Col>
   );
 };

@@ -7,6 +7,7 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_ROUTES.messages(),
     prepareHeaders: authHeader,
+    providesTags: ['Channels', 'Messages'],
   }),
   tagTypes: ['Messages'],
   endpoints: (builder) => ({
@@ -26,10 +27,11 @@ export const messagesApi = createApi({
       }),
     }),
     removeMessage: builder.mutation({
-      query: (id) => ({
-        url: id,
+      query: (channelId) => ({
+        url: `channel/${channelId}`,
         method: 'DELETE',
       }),
+      providesTags: ['Channels', 'Messages'],
     }),
   }),
 });

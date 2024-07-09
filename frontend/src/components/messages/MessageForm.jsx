@@ -13,13 +13,16 @@ const MessageForm = () => {
   const filter = useContext(FilterContext);
   const { username } = useSelector((state) => state.auth);
   const { currentChannel } = useSelector((state) => state.ui);
+  const modalIsActive = useSelector((state) => state.modal.modalIsActive);
   const channelId = currentChannel.id;
   const [addMessage] = useAddMessageMutation();
   const inputRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [channelId]);
+    if (modalIsActive === false) {
+      inputRef.current?.focus();
+    }
+  }, [channelId, modalIsActive]);
 
   const handleFormSubmit = async (values, { resetForm }) => {
     const { message } = values;

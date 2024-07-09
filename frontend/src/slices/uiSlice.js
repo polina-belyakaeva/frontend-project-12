@@ -5,9 +5,7 @@ export const defaultChannel = { id: '1', name: 'general', removable: false };
 const initialState = {
   channelsList: [],
   currentChannel: defaultChannel,
-  modalChannelId: '',
-  modalChannelName: '',
-  modalType: '',
+  scrollType: '',
 };
 
 const uiSlice = createSlice({
@@ -21,15 +19,9 @@ const uiSlice = createSlice({
     setCurrentChannel(state, action) {
       state.currentChannel = action.payload;
     },
-    setModalChannel(state, action) {
-      const { id, name } = action.payload;
-
-      state.modalChannelId = id;
-      state.modalChannelName = name;
-    },
-    setModalType(state, action) {
+    setScrollType(state, action) {
       const { type } = action.payload;
-      state.modalType = type;
+      state.scrollType = type;
     },
   },
 });
@@ -38,8 +30,6 @@ const uiSlice = createSlice({
 export const {
   setChannels,
   setCurrentChannel,
-  setModalChannel,
-  setModalType,
-  setFocus,
+  setScrollType,
 } = uiSlice.actions;
 export default uiSlice.reducer;

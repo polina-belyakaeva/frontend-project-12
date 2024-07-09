@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Card, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../utils/routes';
 import notFound from '../assets/notFound.png';
 
 const NotFound = () => {
@@ -26,7 +27,7 @@ const NotFound = () => {
           <Card.Text className="text-muted text-center">
             {t('notFoundPage.redirectToSignup')}
 &nbsp;
-            <Link to="/">{t('notFoundPage.mainPage')}</Link>
+            <Link to={ROUTES.home}>{t('notFoundPage.mainPage')}</Link>
           </Card.Text>
         </Card.Body>
       </Card>
