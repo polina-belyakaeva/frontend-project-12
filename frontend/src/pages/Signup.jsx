@@ -109,7 +109,7 @@ const Signup = () => {
                   errors,
                 }) => (
                   <Form
-                    className="w-50"
+                    className="col-12 col-md-6 mt-3 mt-md-0"
                     onSubmit={handleSubmit}
                     autoComplete="off"
                   >
